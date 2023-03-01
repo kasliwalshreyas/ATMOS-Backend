@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-        unique: true,
+        unique: false,
         minlength: 5
     },
     email: {
@@ -19,7 +19,28 @@ const userSchema = new mongoose.Schema({
         unique: true,
         minlength: 5
     },
-    createdAt : {
+    projectIdList: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            required: false,
+            ref: 'Project'
+        }
+    ],
+    taskAssignedIdList: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            required: false,
+            ref: 'Task'
+        }
+    ],
+    favProjectIdList: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            required: false,
+            ref: 'Project'
+        }
+    ],
+    createdAt: {
         type: Date,
         default: Date.now
     }
