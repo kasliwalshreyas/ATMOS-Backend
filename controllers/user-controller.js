@@ -60,6 +60,7 @@ const login = async (req, res) => {
             user: user
         });
     } catch (err) {
+        console.log(err, "Error from user controller -> login");
         res.status(400).send({
             success: false,
             message: err
@@ -73,7 +74,7 @@ const getUserInfo = async (req, res) => {
     try {
 
         const userId = mongoose.Types.ObjectId(req.user._id);
-        const user = await User.findById(userId).select({ password: 0 });
+        const user = await User.findById(userId).populate('projectIdList').populate('taskAssignedIdList').select({ password: 0 });
 
         res.status(200).json({
             success: true,

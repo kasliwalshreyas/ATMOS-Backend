@@ -108,7 +108,7 @@ const deleteProject = async (req, res) => {
             }
         }
 
-        // console.log(project, "project from project controller -> deleteProject");
+        console.log(project, "project from project controller -> deleteProject");
 
         res.status(200).json({
             success: true,
@@ -249,10 +249,11 @@ const transferOwnership = async (req, res) => {
     try {
 
         const projectId = mongoose.Types.ObjectId(req.params.id);
-        const userId = mongoose.Types.ObjectId(req.body.user._id);
-        const newOwnerId = mongoose.Types.ObjectId(req.body.newOwnerId);
+        const userId = mongoose.Types.ObjectId(req.user._id);
+        const newOwnerId = mongoose.Types.ObjectId(req.body.newOwner);
 
         //transfer ownership
+        console.log("transfer ownership", projectId, userId, newOwnerId);
 
         const project = await Project.findByIdAndUpdate(projectId, {
             projectOwner: newOwnerId
