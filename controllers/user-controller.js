@@ -4,6 +4,8 @@ const jwt = require('jsonwebtoken');
 const { registerValidation, loginValidation } = require('../config/validation');
 const { default: mongoose } = require('mongoose');
 
+const sharp = require("sharp");
+
 const register = async (req, res) => {
     try {
         // Validate the data before we make a user
@@ -53,14 +55,14 @@ const login = async (req, res) => {
         if (!validPass) return res.status(400).json({ success: false, message: 'Invalid Password! Password do not match!' });
 
         // Create and assign a token
-        const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, { expiresIn: '2h' });
+        const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, { expiresIn: '8h' });
         res.header('auth-token', token).send({
             success: true,
             token: token,
             user: user
         });
     } catch (err) {
-        console.log(err, "Error from user controller -> login");
+        // console.log(err, "Error from user controller -> login");
         res.status(400).send({
             success: false,
             message: err
@@ -107,17 +109,36 @@ const getUserList = async (req, res) => {
     }
 }
 
+const uploadAvatar = async (req, res) => {
+    try {
+        console.log(req.file);
+        const userId = mongoose.Types.ObjectId(req.user._id);
+        const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer();
+        console.log(buffer);
+        const avatarSrc = `data:image/png;base64,${buffer.toString('base64')}`;
+        const user = await User.findByIdAndUpdate(userId, { avatar: avatarSrc }, { new: true, runValidators: true });
+        res.status(200).json({
+            success: true,
+            message: "Avatar uploaded successfully",
+            user: user
+        });
+    } catch (err) {
+        res.status(400).json({
+            success: false,
+            message: "Something went wrong!",
+            error: err
+        });
+    }
+}
 
 const addProjectToFavorite = async (req, res) => {
     try {
         const userId = mongoose.Types.ObjectId(req.user._id);
         const projectId = mongoose.Types.ObjectId(req.body.projectId);
-        console.log('addProjectToFav');
-        console.log(userId, projectId);
-
+        // console.log('addProjectToFav');
+        // console.log(userId, projectId);
         const user = await User.findByIdAndUpdate(userId, { $addToSet: { favProjectIdList: projectId } }, { new: true });
-
-        console.log(user, "userInfo from addProjectToFavorite");
+        // console.log(user, "userInfo from addProjectToFavorite");
         res.status(200).json({
             success: true,
             message: "Project added to favorite list"
@@ -135,12 +156,9 @@ const removeProjectFromFavorite = async (req, res) => {
     try {
         const userId = mongoose.Types.ObjectId(req.user._id);
         const projectId = mongoose.Types.ObjectId(req.body.projectId);
-
-        console.log(userId, projectId);
-
+        // console.log(userId, projectId);
         const user = await User.findByIdAndUpdate(userId, { $pull: { favProjectIdList: projectId } }, { new: true });
-        console.log(user, "userInfo from addProjectToFavorite");
-
+        // console.log(user, "userInfo from addProjectToFavorite");
         res.status(200).json({
             success: true,
             message: "Project removed from favorite list"
@@ -156,7 +174,29 @@ const removeProjectFromFavorite = async (req, res) => {
 
 
 
+const updateUser = async (req, res) => {
+    try {
+        const userId = mongoose.Types.ObjectId(req.user._id);
+        const user = await User.findByIdAndUpdate(userId, req.body, { new: true });
+        res.status(200).json({
+            success: true,
+            message: "User updated successfully",
+            user: user
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({
+            success: false,
+            message: "Something went wrong!",
+            error: err
+        });
+    }
+}
 
 
 
-module.exports = { register, login, getUserInfo, getUserList, addProjectToFavorite, removeProjectFromFavorite, };
+
+
+
+
+module.exports = { register, login, getUserInfo, getUserList, addProjectToFavorite, removeProjectFromFavorite, uploadAvatar, updateUser };
