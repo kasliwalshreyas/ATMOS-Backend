@@ -19,6 +19,10 @@ const userSchema = new mongoose.Schema({
         unique: true,
         minlength: 5
     },
+    avatar: {
+        type: String,
+        default: 'https://discuss.ens.domains/uploads/db9688/original/2X/5/54f5ecfea7e9abb70f0ff5ac56c8bd1a160f000d.jpeg'
+    },
     projectIdList: [
         {
             type: mongoose.Schema.Types.ObjectId,
