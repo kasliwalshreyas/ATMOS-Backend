@@ -108,11 +108,55 @@ const getUserList = async (req, res) => {
 }
 
 
+const addProjectToFavorite = async (req, res) => {
+    try {
+        const userId = mongoose.Types.ObjectId(req.user._id);
+        const projectId = mongoose.Types.ObjectId(req.body.projectId);
+        console.log('addProjectToFav');
+        console.log(userId, projectId);
+
+        const user = await User.findByIdAndUpdate(userId, { $addToSet: { favProjectIdList: projectId } }, { new: true });
+
+        console.log(user, "userInfo from addProjectToFavorite");
+        res.status(200).json({
+            success: true,
+            message: "Project added to favorite list"
+        });
+    } catch (err) {
+        console.log(err, "Error from user controller -> addProjectToFavorite");
+        res.status(400).json({
+            success: false,
+            message: err
+        });
+    }
+}
+
+const removeProjectFromFavorite = async (req, res) => {
+    try {
+        const userId = mongoose.Types.ObjectId(req.user._id);
+        const projectId = mongoose.Types.ObjectId(req.body.projectId);
+
+        console.log(userId, projectId);
+
+        const user = await User.findByIdAndUpdate(userId, { $pull: { favProjectIdList: projectId } }, { new: true });
+        console.log(user, "userInfo from addProjectToFavorite");
+
+        res.status(200).json({
+            success: true,
+            message: "Project removed from favorite list"
+        });
+    } catch (err) {
+        console.log(err, "Error from user controller -> addProjectToFavorite");
+        res.status(400).json({
+            success: false,
+            message: err
+        });
+    }
+}
 
 
 
 
 
 
-
-module.exports = { register, login, getUserInfo, getUserList };
+module.exports = { register, login, getUserInfo, getUserList, addProjectToFavorite, removeProjectFromFavorite, };

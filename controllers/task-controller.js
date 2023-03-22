@@ -2,6 +2,7 @@ const User = require("../models/User");
 const Project = require("../models/Project");
 const Section = require("../models/Section");
 const Task = require("../models/Task");
+const Discussion = require("../models/Discussion");
 const mongoose = require("mongoose");
 
 const updateTask = async (req, res) => {
@@ -18,10 +19,10 @@ const updateTask = async (req, res) => {
       taskProjectId,
       taskCreator,
       taskDeadline,
-      taskComments,
+      taskDiscussion,
     } = req.body;
 
-    // console.log(taskId, taskName, taskDescription, taskCompletion, taskPriority, taskStatus, taskAssigneeList, taskSectionId, taskProjectId, taskCreator, taskDeadline, taskComments, "taskId, taskName, taskDescription, taskCompletion, taskPriority, taskStatus, taskAssigneeList, taskSectionId, taskProjectId, taskCreator, taskDeadline, taskComments from task controller -> updateTask");
+    console.log(taskId, taskName, taskDescription, taskCompletion, taskPriority, taskStatus, taskAssigneeList, taskSectionId, taskProjectId, taskCreator, taskDeadline, taskDiscussion, "taskId, taskName, taskDescription, taskCompletion, taskPriority, taskStatus, taskAssigneeList, taskSectionId, taskProjectId, taskCreator, taskDeadline, taskComments from task controller -> updateTask");
 
     if (taskId == null) {
       //create New Task
@@ -36,7 +37,7 @@ const updateTask = async (req, res) => {
         taskProjectId: mongoose.Types.ObjectId(taskProjectId),
         taskCreator: mongoose.Types.ObjectId(taskCreator),
         taskDeadline: new Date(taskDeadline),
-        taskComments: taskComments,
+        taskDiscussion: new Discussion(),
       });
 
       const savedTask = await task.save();
@@ -99,11 +100,7 @@ const updateTask = async (req, res) => {
           taskPriority: taskPriority,
           taskStatus: taskStatus,
           taskAssigneeList: taskAssigneeList,
-          taskSectionId: mongoose.Types.ObjectId(taskSectionId),
-          taskProjectId: mongoose.Types.ObjectId(taskProjectId),
-          taskCreator: mongoose.Types.ObjectId(taskCreator),
           taskDeadline: new Date(taskDeadline),
-          taskComments: taskComments,
           taskUpdatedAt: Date.now(),
         },
         { new: false }

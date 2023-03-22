@@ -68,7 +68,7 @@ const create = async (req, res) => {
   }
 };
 
-const update = async (req, res) => {};
+const update = async (req, res) => { };
 
 const deleteProject = async (req, res) => {
   try {
@@ -174,9 +174,12 @@ const getUserProjects = async (req, res) => {
       .populate("projectLowAccessMembers")
       .populate({
         path: "projectSectionIdList",
-        populate: { path: "taskIdList" },
+        populate: { path: "taskIdList", populate: { path: "taskAssigneeList" } },
       })
-      .populate("projectTaskIdList");
+      .populate({
+        path: "projectTaskIdList",
+        // populate: { path: "taskAssigneeList" },
+      });
     // console.log(projects, "projects from project controller -> getUserProjects");
 
     res.status(200).json({
@@ -202,7 +205,7 @@ const getProjectDetails = async (req, res) => {
       .populate("projectLowAccessMembers")
       .populate({
         path: "projectSectionIdList",
-        populate: { path: "taskIdList" },
+        populate: { path: "taskIdList", populate: { path: "taskAssigneeList" } },
       })
       .populate("projectTaskIdList");
     // console.log(project, "project from project controller -> getProjectDetails");
