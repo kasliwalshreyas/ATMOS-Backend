@@ -416,6 +416,79 @@ const changeUserAccessLevel = async (req, res) => {
 };
 
 
+const removeTeamMember = async (req, res) => {
+  try {
+    const projectId = mongoose.Types.ObjectId(req.params.id);
+    const userId = mongoose.Types.ObjectId(req.body.userId);
+
+    //remove user from project's access list
+
+    const project = await Project.findById(projectId);
+
+    if (project.projectHighAccessMembers.includes(userId)) {
+      const projectRes = await Project.findByIdAndUpdate(
+        projectId,
+        {
+          $pull: {
+            projectHighAccessMembers: userId,
+          },
+        },
+
+        { new: true }
+      );
+    } else if (project.projectMediumAccessMembers.includes(userId)) {
+      const projectRes = await Project.findByIdAndUpdate(
+        projectId,
+        {
+          $pull: {
+            projectMediumAccessMembers: userId,
+          },
+        },
+
+        { new: true }
+      );
+    } else if (project.projectLowAccessMembers.includes(userId)) {
+      const projectRes = await Project.findByIdAndUpdate(
+        projectId,
+        {
+          $pull: {
+            projectLowAccessMembers: userId,
+          },
+        },
+
+        { new: true }
+      );
+    }
+
+    //remove project from user's project list
+
+    const response = await User.findByIdAndUpdate(
+      userId,
+      {
+        $pull: {
+          projectIdList: projectId,
+        },
+      },
+      { new: true }
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "User removed from project",
+    });
+  } catch (err) {
+    console.log(err, "Error from project controller -> removeTeamMember");
+    res.status(400).json({
+      success: false,
+      message: err,
+    });
+  }
+};
+
+
+
+
+
 
 
 module.exports = {
@@ -428,4 +501,5 @@ module.exports = {
   transferOwnership,
   updateUserProjects,
   changeUserAccessLevel,
+  removeTeamMember
 };

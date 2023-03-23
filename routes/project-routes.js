@@ -11,7 +11,8 @@ const {
     addTeamMember,
     transferOwnership,
     updateUserProjects,
-    changeUserAccessLevel
+    changeUserAccessLevel,
+    removeTeamMember
 } = require('../controllers/project-controller');
 
 router.use(auth);
@@ -25,7 +26,7 @@ router.get('/getProjectDetails/:id', getProjectDetails);
 router.put('/addTeamMember/:id', addTeamMember);
 router.post('/transferOwnership/:id', transferOwnership);
 router.post('/:id/changeUserAccessLevel', changeUserAccessLevel);
-
+router.post('/:id/removeTeamMember', removeTeamMember);
 
 
 module.exports = router;
