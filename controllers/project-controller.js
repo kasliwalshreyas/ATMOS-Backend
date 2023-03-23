@@ -36,7 +36,7 @@ const create = async (req, res) => {
       //this is created by Einstein
       projectLastUsed: [
         {
-          userid: userId,
+          userid: mongoose.Types.ObjectId(req.body.projectOwner),
           lastUsed: new Date(),
         },
       ],
