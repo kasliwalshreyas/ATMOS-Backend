@@ -19,12 +19,19 @@ const updateTask = async (req, res) => {
       taskProjectId,
       taskCreator,
       taskDeadline,
-      taskDiscussion,
     } = req.body;
 
-    console.log(taskId, taskName, taskDescription, taskCompletion, taskPriority, taskStatus, taskAssigneeList, taskSectionId, taskProjectId, taskCreator, taskDeadline, taskDiscussion, "taskId, taskName, taskDescription, taskCompletion, taskPriority, taskStatus, taskAssigneeList, taskSectionId, taskProjectId, taskCreator, taskDeadline, taskComments from task controller -> updateTask");
+    console.log(taskId, taskName, taskDescription, taskCompletion, taskPriority, taskStatus, taskAssigneeList, taskSectionId, taskProjectId, taskCreator, taskDeadline, "taskId, taskName, taskDescription, taskCompletion, taskPriority, taskStatus, taskAssigneeList, taskSectionId, taskProjectId, taskCreator, taskDeadline, taskComments from task controller -> updateTask");
 
     if (taskId == null) {
+
+      //create new discussion thread
+      const discussion = new Discussion({
+        discussionThread: [],
+      });
+
+      const savedDiscussion = await discussion.save();
+
       //create New Task
       const task = new Task({
         taskName: taskName,
@@ -37,10 +44,23 @@ const updateTask = async (req, res) => {
         taskProjectId: mongoose.Types.ObjectId(taskProjectId),
         taskCreator: mongoose.Types.ObjectId(taskCreator),
         taskDeadline: new Date(taskDeadline),
-        taskDiscussion: new Discussion(),
+        taskDiscussion: mongoose.Types.ObjectId(savedDiscussion._id),
       });
 
       const savedTask = await task.save();
+
+
+      // //update the task with the discussion thread id
+      // const taskID = mongoose.Types.ObjectId(savedTask._id);
+      // const updatedTask = await Task.findByIdAndUpdate(
+      //   taskID,
+      //   {
+      //     $set: {
+      //       taskDiscussion: savedDiscussion._id,
+      //     },
+      //   },
+      //   { new: true }
+      // );
 
       const section = await Section.findByIdAndUpdate(
         taskSectionId,
@@ -333,8 +353,128 @@ const deleteTask = async (req, res) => {
   }
 };
 
+
+const getDiscussionThread = async (req, res) => {
+  try {
+    const userId = mongoose.Types.ObjectId(req.user._id);
+    const discussionId = mongoose.Types.ObjectId(req.params.id);
+    // console.log(discussionId, "discussionId");
+
+    const discussionThread = await Discussion.find({ _id: discussionId }).populate({
+      path: "discussionThread",
+      populate: {
+        path: "userId",
+        select: "userName avatar email _id ",
+      },
+    });
+
+    // console.log(discussionThread, "discussionThread");
+
+    res.status(200).json({
+      success: true,
+      message: "Discussion list fetched successfully",
+      discussion: discussionThread,
+    });
+
+  } catch (err) {
+    console.log(err, "Error from discussion controller -> getDiscussionList");
+    res.status(400).json({
+      success: false,
+      message: err,
+    });
+  }
+};
+
+
+const createDiscussionThread = async (req, res) => {
+  try {
+    const userId = mongoose.Types.ObjectId(req.user._id);
+    const discussionId = mongoose.Types.ObjectId(req.params.id);
+
+    const { discussion } = req.body;
+    // console.log(discussion, "discussion");
+
+    // update the discussion thread list and add the new discusssion
+
+    const updatedDiscussion = await Discussion.findByIdAndUpdate(discussionId, {
+      $push: {
+        discussionThread: {
+          userId,
+          message: discussion,
+        },
+      },
+    }, { new: true }).populate({
+      path: "discussionThread",
+      populate: {
+        path: "userId",
+        select: "userName avatar email _id ",
+      },
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Discussion created successfully",
+      discussion: updatedDiscussion,
+    });
+  } catch (err) {
+    console.log(err, "Error from discussion controller -> createDiscussion");
+    res.status(400).json({
+      success: false,
+      message: err,
+    });
+  }
+};
+
+
+const deleteDiscussionThread = async (req, res) => {
+  try {
+    const discussionId = mongoose.Types.ObjectId(req.params.id);
+    const discussionThreadId = mongoose.Types.ObjectId(req.params.threadId);
+
+
+    const updatedDiscussion = await Discussion.findByIdAndUpdate(discussionId, {
+      $pull: {
+        discussionThread: {
+          _id: discussionThreadId
+        }
+      }
+    }, { new: true }).populate({
+      path: "discussionThread",
+      populate: {
+        path: "userId",
+        select: "userName avatar email _id ",
+      },
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Discussion deleted successfully",
+      discussion: updatedDiscussion,
+    });
+  } catch (err) {
+    console.log(err, "Error from discussion controller -> deleteDiscussion");
+    res.status(400).json({
+      success: false,
+      message: err,
+
+    });
+  }
+};
+
+
+
+
+
+
+
+
+
+
 module.exports = {
   updateTask,
   deleteTask,
   getTaskList,
+  getDiscussionThread,
+  createDiscussionThread,
+  deleteDiscussionThread
 };

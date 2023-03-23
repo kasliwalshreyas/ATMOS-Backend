@@ -9,6 +9,9 @@ const create = async (req, res) => {
   try {
     // console.log(req.body, "req.body from project controller -> create");
 
+    //add project to user's project list
+    const userId = mongoose.Types.ObjectId(req.body.projectOwner);
+
     const project = new Project({
       projectName: req.body.projectName,
       projectType: req.body.projectType,
@@ -40,8 +43,7 @@ const create = async (req, res) => {
     });
     const savedProject = await project.save();
 
-    //add project to user's project list
-    const userId = mongoose.Types.ObjectId(req.body.projectOwner);
+
 
     const userInfo = await User.findByIdAndUpdate(
       userId,
@@ -320,6 +322,102 @@ const transferOwnership = async (req, res) => {
   }
 };
 
+const changeUserAccessLevel = async (req, res) => {
+  try {
+    const projectId = mongoose.Types.ObjectId(req.params.id);
+    const userId = mongoose.Types.ObjectId(req.body.userId);
+    const newAccessLevel = req.body.newAccessLevel;
+
+    //remove user from old access list
+
+    const project = await Project.findById(projectId);
+
+    if (project.projectHighAccessMembers.includes(userId)) {
+      const projectRes = await Project.findByIdAndUpdate(
+        projectId,
+        {
+          $pull: {
+            projectHighAccessMembers: userId,
+          },
+        },
+
+        { new: true }
+      );
+    } else if (project.projectMediumAccessMembers.includes(userId)) {
+      const projectRes = await Project.findByIdAndUpdate(
+        projectId,
+        {
+          $pull: {
+            projectMediumAccessMembers: userId,
+          },
+        },
+
+        { new: true }
+      );
+    } else if (project.projectLowAccessMembers.includes(userId)) {
+      const projectRes = await Project.findByIdAndUpdate(
+        projectId,
+        {
+          $pull: {
+            projectLowAccessMembers: userId,
+          },
+        },
+
+        { new: true }
+      );
+    }
+
+    //add user to new access list
+
+    if (newAccessLevel === "highAccess") {
+      const projectRes = await Project.findByIdAndUpdate(
+        projectId,
+        {
+          $push: {
+            projectHighAccessMembers: userId,
+          },
+        },
+        { new: true }
+      );
+    } else if (newAccessLevel === "mediumAccess") {
+      const projectRes = await Project.findByIdAndUpdate(
+        projectId,
+        {
+          $push: {
+            projectMediumAccessMembers: userId,
+          },
+        },
+        { new: true }
+      );
+    } else if (newAccessLevel === "lowAccess") {
+      const projectRes = await Project.findByIdAndUpdate(
+        projectId,
+        {
+          $push: {
+            projectLowAccessMembers: userId,
+          },
+        },
+        { new: true }
+      );
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "User access level changed successfully",
+      accessLevel: newAccessLevel,
+    });
+  } catch (err) {
+    console.log(err, "Error from project controller -> changeUserAccessLevel");
+    res.status(400).json({
+      success: false,
+      message: err,
+    });
+  }
+};
+
+
+
+
 module.exports = {
   create,
   update,
@@ -329,4 +427,5 @@ module.exports = {
   addTeamMember,
   transferOwnership,
   updateUserProjects,
+  changeUserAccessLevel,
 };

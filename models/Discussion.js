@@ -1,12 +1,6 @@
 const mongoose = require('mongoose');
 
 const discussionSchema = new mongoose.Schema({
-    taskId: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        unique: true,
-        ref: "Task"
-    },
     discussionThread: [
         {
             userId: {
@@ -28,4 +22,8 @@ const discussionSchema = new mongoose.Schema({
         }
     ]
 
-})
+});
+
+const Discussion = mongoose.model('Discussion', discussionSchema);
+
+module.exports = Discussion;

@@ -65,6 +65,7 @@ const taskSchema = new mongoose.Schema({
     },
     taskDiscussion: {
         type: mongoose.Schema.Types.ObjectID,
+        ref: "Discussion",
         required: false,
         unique: false,
         minlength: 0
