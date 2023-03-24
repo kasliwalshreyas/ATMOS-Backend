@@ -63,8 +63,9 @@ const taskSchema = new mongoose.Schema({
         unique: false,
         minlength: 0
     },
-    taskComments: {
-        type: Array,
+    taskDiscussion: {
+        type: mongoose.Schema.Types.ObjectID,
+        ref: "Discussion",
         required: false,
         unique: false,
         minlength: 0
