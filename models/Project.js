@@ -116,8 +116,8 @@ const projectSchema = new mongoose.Schema({
                 ref: "User",
             },
             lastUsed: {
-                // type: Date,
-                // default: Date()
+                type: Date,
+                default: Date()
             },
         },
     ],

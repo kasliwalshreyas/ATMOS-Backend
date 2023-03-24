@@ -140,17 +140,32 @@ const deleteProject = async (req, res) => {
 };
 
 //Created by Einstein
-const updateUserProjects = async (req, res) => {
+const updateLastUsed = async (req, res) => {
   try {
-    // console.log("htis is my correct data have hyou andy ", projectId);
-    // console.log("and thi si the body", req.body);
-    const projectId = mongoose.Types.ObjectId(req.params.id);
 
-    const project = await Project.findByIdAndUpdate(projectId, req.body);
+    const userId = mongoose.Types.ObjectId(req.user._id);
+    const projectId = mongoose.Types.ObjectId(req.params.id);
+    const project = await Project.findById(projectId);
+    const dateFormat = new Date(req.body.updatedLastUsed);
+    const projectLastUsed = project.projectLastUsed;
+    projectLastUsed.map((item) => {
+      // console.log(item, "item from project controller -> updateLastUsed");
+      if (item.userid.toString() == userId.toString()) {
+        item.lastUsed = dateFormat;
+      }
+    });
+
+    const updatedProject = await Project.findByIdAndUpdate(
+      projectId,
+      {
+        projectLastUsed: projectLastUsed,
+      },
+      { new: true }
+    );
 
     res.status(200).json({
       success: true,
-      project: project,
+      message: "Project last used updated successfully",
     });
   } catch (err) {
     console.log(err, "Error from project controller -> updateProject");
@@ -499,7 +514,7 @@ module.exports = {
   getProjectDetails,
   addTeamMember,
   transferOwnership,
-  updateUserProjects,
+  updateLastUsed,
   changeUserAccessLevel,
   removeTeamMember
 };
