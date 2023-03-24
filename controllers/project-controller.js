@@ -425,7 +425,8 @@ const changeUserAccessLevel = async (req, res) => {
     console.log(err, "Error from project controller -> changeUserAccessLevel");
     res.status(400).json({
       success: false,
-      message: err,
+      message: 'Something went wrong!',
+      error: err,
     });
   }
 };
@@ -495,7 +496,8 @@ const removeTeamMember = async (req, res) => {
     console.log(err, "Error from project controller -> removeTeamMember");
     res.status(400).json({
       success: false,
-      message: err,
+      error: err,
+      message: 'Something went wrong!'
     });
   }
 };
