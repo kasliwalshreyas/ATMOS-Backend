@@ -30,6 +30,13 @@ const userSchema = new mongoose.Schema({
             ref: 'Project'
         }
     ],
+    noteIdList: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            required:false, 
+            ref: 'Note'
+        }
+    ],
     taskAssignedIdList: [
         {
             type: mongoose.Schema.Types.ObjectId,

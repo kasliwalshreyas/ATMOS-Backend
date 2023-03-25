@@ -26,6 +26,7 @@ app.use('/user', require('./routes/user-routes'));
 app.use('/project', require('./routes/project-routes'));
 app.use('/section', require('./routes/section-routes'));
 app.use('/task', require('./routes/task-routes'));
+app.use('/note', require('./routes/note-routes'))
 
 
 app.listen(port, () => {

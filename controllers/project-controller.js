@@ -11,7 +11,6 @@ const create = async (req, res) => {
 
     //add project to user's project list
     const userId = mongoose.Types.ObjectId(req.body.projectOwner);
-
     const project = new Project({
       projectName: req.body.projectName,
       projectType: req.body.projectType,
@@ -62,7 +61,7 @@ const create = async (req, res) => {
       project: savedProject,
     });
   } catch (err) {
-    console.log(err, "Error from project controller -> create");
+    // console.log(err, "Error from project controller -> create");
     res.status(400).json({
       success: false,
       message: err,
@@ -216,7 +215,7 @@ const getUserProjects = async (req, res) => {
       projects: projects,
     });
   } catch (err) {
-    console.log(err, "Error from project controller -> getUserProjects");
+    // console.log(err, "Error from project controller -> getUserProjects");
     res.status(400).json({
       success: false,
       message: err,
@@ -437,7 +436,8 @@ const changeUserAccessLevel = async (req, res) => {
     console.log(err, "Error from project controller -> changeUserAccessLevel");
     res.status(400).json({
       success: false,
-      message: err,
+      message: 'Something went wrong!',
+      error: err,
     });
   }
 };
@@ -507,7 +507,8 @@ const removeTeamMember = async (req, res) => {
     console.log(err, "Error from project controller -> removeTeamMember");
     res.status(400).json({
       success: false,
-      message: err,
+      error: err,
+      message: 'Something went wrong!'
     });
   }
 };
