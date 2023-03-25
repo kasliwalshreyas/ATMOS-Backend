@@ -147,12 +147,24 @@ const updateLastUsed = async (req, res) => {
     const project = await Project.findById(projectId);
     const dateFormat = new Date(req.body.updatedLastUsed);
     const projectLastUsed = project.projectLastUsed;
-    projectLastUsed.map((item) => {
-      // console.log(item, "item from project controller -> updateLastUsed");
-      if (item.userid.toString() == userId.toString()) {
-        item.lastUsed = dateFormat;
-      }
-    });
+    // projectLastUsed.map((item) => {
+    //   // console.log(item, "item from project controller -> updateLastUsed");
+    //   if (item.userid.toString() == userId.toString()) {
+    //     item.lastUsed = dateFormat;
+    //   }
+    // });
+
+    const index = projectLastUsed.findIndex(
+      (item) => item.userid.toString() == userId.toString()
+    );
+    if (index > -1) {
+      projectLastUsed[index].lastUsed = dateFormat;
+    } else {
+      projectLastUsed.push({
+        userid: userId,
+        lastUsed: dateFormat,
+      });
+    }
 
     const updatedProject = await Project.findByIdAndUpdate(
       projectId,
@@ -342,84 +354,100 @@ const changeUserAccessLevel = async (req, res) => {
     const userId = mongoose.Types.ObjectId(req.body.userId);
     const newAccessLevel = req.body.newAccessLevel;
 
-    //remove user from old access list
+    const currUser = mongoose.Types.ObjectId(req.user._id);
 
+    // console.log("change user access level", projectId, userId, newAccessLevel);
     const project = await Project.findById(projectId);
 
-    if (project.projectHighAccessMembers.includes(userId)) {
-      const projectRes = await Project.findByIdAndUpdate(
-        projectId,
-        {
-          $pull: {
-            projectHighAccessMembers: userId,
-          },
-        },
+    //check if current user has high access to project if yes, procceed to remove user from access list otherwise return error
 
-        { new: true }
-      );
-    } else if (project.projectMediumAccessMembers.includes(userId)) {
-      const projectRes = await Project.findByIdAndUpdate(
-        projectId,
-        {
-          $pull: {
-            projectMediumAccessMembers: userId,
+    if (project.projectHighAccessMembers.includes(currUser)) {
+      //remove user from old access list
+      if (project.projectHighAccessMembers.includes(userId)) {
+        const projectRes = await Project.findByIdAndUpdate(
+          projectId,
+          {
+            $pull: {
+              projectHighAccessMembers: userId,
+            },
           },
-        },
 
-        { new: true }
-      );
-    } else if (project.projectLowAccessMembers.includes(userId)) {
-      const projectRes = await Project.findByIdAndUpdate(
-        projectId,
-        {
-          $pull: {
-            projectLowAccessMembers: userId,
+          { new: true }
+        );
+      } else if (project.projectMediumAccessMembers.includes(userId)) {
+        const projectRes = await Project.findByIdAndUpdate(
+          projectId,
+          {
+            $pull: {
+              projectMediumAccessMembers: userId,
+            },
           },
-        },
 
-        { new: true }
-      );
+          { new: true }
+        );
+      } else if (project.projectLowAccessMembers.includes(userId)) {
+        const projectRes = await Project.findByIdAndUpdate(
+          projectId,
+          {
+            $pull: {
+              projectLowAccessMembers: userId,
+            },
+          },
+
+          { new: true }
+        );
+      }
+
+      //add user to new access list
+
+      if (newAccessLevel === "highAccess") {
+        const projectRes = await Project.findByIdAndUpdate(
+          projectId,
+          {
+            $push: {
+              projectHighAccessMembers: userId,
+            },
+          },
+          { new: true }
+        );
+
+      } else if (newAccessLevel === "mediumAccess") {
+        const projectRes = await Project.findByIdAndUpdate(
+          projectId,
+          {
+            $push: {
+              projectMediumAccessMembers: userId,
+            },
+          },
+          { new: true }
+        );
+      } else if (newAccessLevel === "lowAccess") {
+        const projectRes = await Project.findByIdAndUpdate(
+          projectId,
+          {
+            $push: {
+              projectLowAccessMembers: userId,
+            },
+          },
+          { new: true }
+
+        );
+      }
+
+      res.status(200).json({
+        success: true,
+        message: "User access level changed successfully",
+        accessLevel: newAccessLevel,
+      });
+
+    }
+    else {
+      res.status(400).json({
+        success: false,
+        message: "You don't have high access to this project",
+      });
     }
 
-    //add user to new access list
-
-    if (newAccessLevel === "highAccess") {
-      const projectRes = await Project.findByIdAndUpdate(
-        projectId,
-        {
-          $push: {
-            projectHighAccessMembers: userId,
-          },
-        },
-        { new: true }
-      );
-    } else if (newAccessLevel === "mediumAccess") {
-      const projectRes = await Project.findByIdAndUpdate(
-        projectId,
-        {
-          $push: {
-            projectMediumAccessMembers: userId,
-          },
-        },
-        { new: true }
-      );
-    } else if (newAccessLevel === "lowAccess") {
-      const projectRes = await Project.findByIdAndUpdate(
-        projectId,
-        {
-          $push: {
-            projectLowAccessMembers: userId,
-          },
-        },
-        { new: true }
-      );
-    }
-
-    res.status(200).json({
-      success: true,
-      message: "User access level changed successfully",
-      accessLevel: newAccessLevel,
-    });
   } catch (err) {
     console.log(err, "Error from project controller -> changeUserAccessLevel");
     res.status(400).json({
@@ -435,62 +463,75 @@ const removeTeamMember = async (req, res) => {
   try {
     const projectId = mongoose.Types.ObjectId(req.params.id);
     const userId = mongoose.Types.ObjectId(req.body.userId);
+    const currUser = mongoose.Types.ObjectId(req.user._id);
 
     //remove user from project's access list
+    console.log('removeTeamMember : ', projectId, userId, currUser);
 
     const project = await Project.findById(projectId);
 
-    if (project.projectHighAccessMembers.includes(userId)) {
-      const projectRes = await Project.findByIdAndUpdate(
-        projectId,
+    if (project.projectHighAccessMembers.includes(currUser)) {
+
+      if (project.projectHighAccessMembers.includes(userId)) {
+        const projectRes = await Project.findByIdAndUpdate(
+          projectId,
+          {
+            $pull: {
+              projectHighAccessMembers: userId,
+            },
+          },
+
+          { new: true }
+        );
+      } else if (project.projectMediumAccessMembers.includes(userId)) {
+        const projectRes = await Project.findByIdAndUpdate(
+          projectId,
+          {
+            $pull: {
+              projectMediumAccessMembers: userId,
+            },
+          },
+
+          { new: true }
+        );
+      } else if (project.projectLowAccessMembers.includes(userId)) {
+        const projectRes = await Project.findByIdAndUpdate(
+          projectId,
+          {
+            $pull: {
+              projectLowAccessMembers: userId,
+            },
+          },
+
+          { new: true }
+        );
+      }
+
+      //remove project from user's project list
+
+      const response = await User.findByIdAndUpdate(
+        userId,
         {
           $pull: {
-            projectHighAccessMembers: userId,
+            projectIdList: projectId,
           },
         },
-
         { new: true }
       );
-    } else if (project.projectMediumAccessMembers.includes(userId)) {
-      const projectRes = await Project.findByIdAndUpdate(
-        projectId,
-        {
-          $pull: {
-            projectMediumAccessMembers: userId,
-          },
-        },
 
-        { new: true }
-      );
-    } else if (project.projectLowAccessMembers.includes(userId)) {
-      const projectRes = await Project.findByIdAndUpdate(
-        projectId,
-        {
-          $pull: {
-            projectLowAccessMembers: userId,
-          },
-        },
+      res.status(200).json({
+        success: true,
+        message: "User removed from project",
+      });
 
-        { new: true }
-      );
+    }
+    else {
+      res.status(400).json({
+        success: false,
+        message: "You don't have high access to this project",
+      });
     }
 
-    //remove project from user's project list
-
-    const response = await User.findByIdAndUpdate(
-      userId,
-      {
-        $pull: {
-          projectIdList: projectId,
-        },
-      },
-      { new: true }
-    );
-
-    res.status(200).json({
-      success: true,
-      message: "User removed from project",
-    });
   } catch (err) {
     console.log(err, "Error from project controller -> removeTeamMember");
     res.status(400).json({
