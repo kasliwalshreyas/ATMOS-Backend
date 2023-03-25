@@ -148,12 +148,24 @@ const updateLastUsed = async (req, res) => {
     const project = await Project.findById(projectId);
     const dateFormat = new Date(req.body.updatedLastUsed);
     const projectLastUsed = project.projectLastUsed;
-    projectLastUsed.map((item) => {
-      // console.log(item, "item from project controller -> updateLastUsed");
-      if (item.userid.toString() == userId.toString()) {
-        item.lastUsed = dateFormat;
-      }
-    });
+    // projectLastUsed.map((item) => {
+    //   // console.log(item, "item from project controller -> updateLastUsed");
+    //   if (item.userid.toString() == userId.toString()) {
+    //     item.lastUsed = dateFormat;
+    //   }
+    // });
+
+    const index = projectLastUsed.findIndex(
+      (item) => item.userid.toString() == userId.toString()
+    );
+    if (index > -1) {
+      projectLastUsed[index].lastUsed = dateFormat;
+    } else {
+      projectLastUsed.push({
+        userid: userId,
+        lastUsed: dateFormat,
+      });
+    }
 
     const updatedProject = await Project.findByIdAndUpdate(
       projectId,
