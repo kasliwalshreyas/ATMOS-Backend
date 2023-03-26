@@ -58,6 +58,7 @@ const create = async (req, res) => {
 
     res.status(200).json({
       success: true,
+      message: 'Project created successfully',
       project: savedProject,
     });
   } catch (err) {
@@ -126,8 +127,7 @@ const deleteProject = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: "Project deleted successfully",
-      project: project,
+      message: "Project deleted successfully"
     });
   } catch (err) {
     console.log(err, "Error from project controller -> deleteProject");
@@ -215,6 +215,7 @@ const getUserProjects = async (req, res) => {
 
     res.status(200).json({
       success: true,
+      message: "Projects fetched successfully",
       projects: projects,
     });
   } catch (err) {
@@ -243,6 +244,7 @@ const getProjectDetails = async (req, res) => {
 
     res.status(200).json({
       success: true,
+      message: "Project details fetched successfully",
       project: project,
     });
   } catch (err) {

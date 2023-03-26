@@ -8,37 +8,35 @@ const { Server } = require("socket.io");
 const app = express();
 const cors = require("cors");
 const swaggerUI = require('swagger-ui-express');
-const swaggerJsDoc = require('swagger-jsdoc');
-
+const { apiDoc } = require('./utils/docs');
 const corsOptions = {
     origin: '*',
     credentials: true,            //access-control-allow-credentials:true
     optionSuccessStatus: 200,
 }
 
-//tell swagger to allow me to use bearer token in the header with custom name
 
-const options = {
-    definition: {
-        openapi: '3.0.0',
-        info: {
-            title: 'Atmos API',
-            version: '1.0.0',
-            description: 'Atmos API',
-        },
-        servers: [
-            {
-                url: 'http://localhost:4000',
-            },
-        ],
-    },
-    apis: ['./routes/*.js'],
-};
-
+// const options = {
+//     definition: {
+//         openapi: '3.0.0',
+//         info: {
+//             title: 'Atmos API',
+//             version: '1.0.0',
+//             description: 'Atmos API',
+//         },
+//         servers: [
+//             {
+//                 url: 'http://localhost:4000',
+//             },
+//         ],
+//     },
+//     apis: ['./routes/*.js'],
+// };
 
 
-const specs = swaggerJsDoc(options);
-app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(specs));
+
+// const specs = swaggerJsDoc(options);
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(apiDoc));
 
 
 

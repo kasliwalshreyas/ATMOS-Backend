@@ -102,6 +102,7 @@ const getUserList = async (req, res) => {
 
         res.status(200).json({
             success: true,
+            message: "User List fetched successfully",
             userList: userList
         });
     } catch (err) {

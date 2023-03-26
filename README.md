@@ -85,9 +85,6 @@
 
 # Frontend
 - Dashboard
-    - Home
-    - Project List
-    - Create Project Page
     - Project
         - Overview
         - Board
