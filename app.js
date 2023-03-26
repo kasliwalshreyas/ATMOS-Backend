@@ -16,19 +16,20 @@ app.use(express.urlencoded({ extended: false }));
 
 connectDB();
 
-// const corsOptions = {
-//     origin: '*',
-//     credentials: true,            //access-control-allow-credentials:true
-//     optionSuccessStatus: 200,
-// }
+const corsOptions = {
+    origin: '*',
+    credentials: true,            //access-control-allow-credentials:true
+    optionSuccessStatus: 200,
+}
 
-// app.use(cors(corsOptions)) // Use this after the variable declaration
+app.use(cors(corsOptions)) // Use this after the variable declaration
 
 app.use('/user', require('./routes/user-routes'));
 app.use('/project', require('./routes/project-routes'));
 app.use('/section', require('./routes/section-routes'));
 app.use('/task', require('./routes/task-routes'));
-app.use('/note', require('./routes/note-routes'))
+app.use('/note', require('./routes/note-routes'));
+app.use('/chat', require('./routes/chat-routes'));
 
 
 const server = http.createServer(app);
@@ -37,7 +38,7 @@ const server = http.createServer(app);
 const io = new Server(server, {
     pingTimeout: 60000,
     cors:{
-        origin: "http://localhost:4001",
+        origin: "http://localhost:3000",
     },
 })
 
