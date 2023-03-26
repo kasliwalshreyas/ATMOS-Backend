@@ -59,6 +59,7 @@ const login = async (req, res) => {
         const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, { expiresIn: '8h' });
         res.header('auth-token', token).send({
             success: true,
+            message: "Login Success",
             token: token,
             user: user
         });
@@ -77,6 +78,7 @@ const getUserInfo = async (req, res) => {
     try {
 
         const userId = mongoose.Types.ObjectId(req.user._id);
+<<<<<<< HEAD
         const user = await User.findById(userId).populate({
             path: "projectIdList",
             model: "Project",
@@ -96,6 +98,9 @@ const getUserInfo = async (req, res) => {
             ]
             })
         .populate('taskAssignedIdList').select({ password: 0 });
+=======
+        const user = await User.findById(userId).populate('projectIdList').populate('taskAssignedIdList').populate('favProjectIdList').select({ password: 0 });
+>>>>>>> 00bce5f2c6763c87872f034acfac1bf4698efa57
 
         res.status(200).json({
             success: true,
@@ -109,6 +114,8 @@ const getUserInfo = async (req, res) => {
         });
     }
 }
+
+
 
 
 const getUserList = async (req, res) => {

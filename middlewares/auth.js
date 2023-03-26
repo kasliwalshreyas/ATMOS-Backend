@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 
 const auth = async (req, res, next) => {
     try {
-        const token = req.header('auth-token').split(' ')[1];
+        const token = req.header('Authorization').split(' ')[1];
         // console.log(token, "token from auth middleware");
         if (!token) return res.status(401).json({ success: false, message: 'Access Denied! You are not authorized!' });
         const verified = jwt.verify(token, process.env.TOKEN_SECRET);
