@@ -8,6 +8,12 @@ const NoteSchema = new mongoose.Schema({
         unique: false,
         minlength: 0
     },
+    NoteText: {
+        type: String,
+        required: false,
+        unique: false,
+        minlength: 0
+    },
     NoteOwner: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
