@@ -195,19 +195,22 @@ const getUserProjects = async (req, res) => {
     const projectList = userInfo.projectIdList;
     // console.log(projectList, "projectList from project controller -> getUserProjects");
     //populate projects from Projects collection
-    const projects = await Project.find({ _id: { $in: projectList } })
-      .populate("projectOwner")
-      .populate("projectHighAccessMembers")
-      .populate("projectMediumAccessMembers")
-      .populate("projectLowAccessMembers")
-      .populate({
-        path: "projectSectionIdList",
-        populate: { path: "taskIdList", populate: { path: "taskAssigneeList" } },
-      })
-      .populate({
-        path: "projectTaskIdList",
-        // populate: { path: "taskAssigneeList" },
-      });
+    const projects = await Project.find({ _id: { $in: projectList } }).select(
+      "-projectSectionIdList -projectTaskIdList -projectHighAccessMembers -projectMediumAccessMembers -projectLowAccessMembers -projectMission -projectVision -projectDescription -projectStatement -projectGuidelines -projectStartDate -projectEndDate"
+    );
+
+    // .populate("projectOwner")
+    // .populate("projectHighAccessMembers")
+    // .populate("projectMediumAccessMembers")
+    // .populate("projectLowAccessMembers")
+    // .populate({
+    //   path: "projectSectionIdList",
+    //   populate: { path: "taskIdList", populate: { path: "taskAssigneeList" } },
+    // })
+    // .populate({
+    //   path: "projectTaskIdList",
+    //   // populate: { path: "taskAssigneeList" },
+    // });
     // console.log(projects, "projects from project controller -> getUserProjects");
 
     res.status(200).json({

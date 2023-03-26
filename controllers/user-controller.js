@@ -76,7 +76,7 @@ const getUserInfo = async (req, res) => {
     try {
 
         const userId = mongoose.Types.ObjectId(req.user._id);
-        const user = await User.findById(userId).populate('projectIdList').populate('taskAssignedIdList').select({ password: 0 });
+        const user = await User.findById(userId).populate('projectIdList').populate('taskAssignedIdList').populate('favProjectIdList').select({ password: 0 });
 
         res.status(200).json({
             success: true,
@@ -90,6 +90,8 @@ const getUserInfo = async (req, res) => {
         });
     }
 }
+
+
 
 
 const getUserList = async (req, res) => {
