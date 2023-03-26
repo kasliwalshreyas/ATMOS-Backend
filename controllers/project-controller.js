@@ -230,6 +230,7 @@ const getUserProjects = async (req, res) => {
 const getProjectDetails = async (req, res) => {
   try {
     const projectId = mongoose.Types.ObjectId(req.params.id);
+    console.log(projectId);
     const project = await Project.findById(projectId)
       .populate("projectOwner")
       .populate("projectHighAccessMembers")

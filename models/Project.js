@@ -121,6 +121,13 @@ const projectSchema = new mongoose.Schema({
             },
         },
     ],
+    projectMessages: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            required: false,
+            ref: 'Chats'
+        }
+    ]
 });
 
 const Project = mongoose.model("Project", projectSchema);

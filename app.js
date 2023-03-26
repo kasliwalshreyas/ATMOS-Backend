@@ -51,12 +51,12 @@ connectDB();
 
 app.use(cors(corsOptions)) // Use this after the variable declaration
 
-
 app.use('/user', require('./routes/user-routes'));
 app.use('/project', require('./routes/project-routes'));
 app.use('/section', require('./routes/section-routes'));
 app.use('/task', require('./routes/task-routes'));
-app.use('/note', require('./routes/note-routes'))
+app.use('/note', require('./routes/note-routes'));
+app.use('/chat', require('./routes/chat-routes'));
 
 
 const server = http.createServer(app);
@@ -65,8 +65,8 @@ app.use('/admin', require('./routes/admin-routes'));
 
 const io = new Server(server, {
     pingTimeout: 60000,
-    cors: {
-        origin: "http://localhost:4001",
+    cors:{
+        origin: "http://localhost:3000",
     },
 })
 
