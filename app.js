@@ -32,6 +32,7 @@ app.use('/note', require('./routes/note-routes'))
 
 
 const server = http.createServer(app);
+app.use('/admin', require('./routes/admin-routes'));
 
 
 const io = new Server(server, {
