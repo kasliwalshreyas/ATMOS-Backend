@@ -3,48 +3,55 @@ const express = require('express');
 const port = process.env.PORT || 4000;
 const connectDB = require('./config/db');
 const jwt = require('jsonwebtoken');
+const morgan = require('morgan');
 const http = require("http");
+const fs = require('fs')
 const { Server } = require("socket.io");
 const app = express();
 const cors = require("cors");
 const swaggerUI = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
 const Chats = require("./models/Chats");
+// const csrf = require('csurf')
+var path = require('path')
+const bodyParser = require('body-parser')
+var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
+// const csrfProtection = csrf({ cookie: true })
+const parseForm = bodyParser.urlencoded({ extended: false })
 // const { sendProjectMessage } = require('./controllers/chat-controller');
 // const { default: ChatEditor } = require('../ATMOS-react/src/pages/ProjectDashboard/Board/ChatEditor');
 
+const { apiDoc } = require('./utils/docs');
 const corsOptions = {
     origin: '*',
     credentials: true,            //access-control-allow-credentials:true
     optionSuccessStatus: 200,
 }
 
-//tell swagger to allow me to use bearer token in the header with custom name
 
-const options = {
-    definition: {
-        openapi: '3.0.0',
-        info: {
-            title: 'Atmos API',
-            version: '1.0.0',
-            description: 'Atmos API',
-        },
-        servers: [
-            {
-                url: 'http://localhost:4000',
-            },
-        ],
-    },
-    apis: ['./routes/*.js'],
-};
-
-
-
-const specs = swaggerJsDoc(options);
-app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(specs));
+// const options = {
+//     definition: {
+//         openapi: '3.0.0',
+//         info: {
+//             title: 'Atmos API',
+//             version: '1.0.0',
+//             description: 'Atmos API',
+//         },
+//         servers: [
+//             {
+//                 url: 'http://localhost:4000',
+//             },
+//         ],
+//     },
+//     apis: ['./routes/*.js'],
+// };
 
 
 
+// const specs = swaggerJsDoc(options);
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(apiDoc));
+
+app.use(morgan('tiny',{ stream: accessLogStream }))
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 // app.use(cors);
@@ -53,6 +60,11 @@ app.use(express.urlencoded({ extended: false }));
 
 connectDB();
 
+// const corsOptions = {
+//     origin: '*',
+//     credentials: true,            //access-control-allow-credentials:true
+//     optionSuccessStatus: 200,
+// }
 
 app.use(cors(corsOptions)) // Use this after the variable declaration
 

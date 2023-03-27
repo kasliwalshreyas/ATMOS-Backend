@@ -56,10 +56,7 @@ router.use((req, res, next) => {
 router.get('/users', getAllUsers);
 // GET /admin/users/:id - get user by id
 router.get('/users/:id', getUserById);
-// POST /admin/users - create user
-router.post('/users', createUser);
-// PUT /admin/users/:id - update user
-router.put('/users/:id', updateUser);
+
 // DELETE /admin/users/:id - delete user
 router.delete('/users/:id', deleteUser);
 
@@ -68,10 +65,7 @@ router.delete('/users/:id', deleteUser);
 router.get('/projects', getAllProjects);
 // GET /admin/projects/:id - get project by id
 router.get('/projects/:id', getProjectById);
-// POST /admin/projects - create project
-router.post('/projects', createProject);
-// PUT /admin/projects/:id - update project
-router.put('/projects/:id', updateProject);
+
 // DELETE /admin/projects/:id - delete project
 router.delete('/projects/:id', deleteProject);
 
@@ -80,10 +74,6 @@ router.delete('/projects/:id', deleteProject);
 router.get('/sections', getAllSections);
 // GET /admin/sections/:id - get section by id
 router.get('/sections/:id', getSectionById);
-// POST /admin/sections - create section
-router.post('/sections', createSection);
-// PUT /admin/sections/:id - update section
-router.put('/sections/:id', updateSection);
 // DELETE /admin/sections/:id - delete section
 router.delete('/sections/:id', deleteSection);
 
@@ -92,10 +82,6 @@ router.delete('/sections/:id', deleteSection);
 router.get('/tasks', getAllTasks);
 // GET /admin/tasks/:id - get task by id
 router.get('/tasks/:id', getTaskById);
-// POST /admin/tasks - create task
-router.post('/tasks', createTask);
-// PUT /admin/tasks/:id - update task
-router.put('/tasks/:id', updateTask);
 // DELETE /admin/tasks/:id - delete task
 router.delete('/tasks/:id', deleteTask);
 

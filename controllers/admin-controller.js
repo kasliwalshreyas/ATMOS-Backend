@@ -15,7 +15,7 @@ const getAllUsers = async (req, res) => {
         });
     } catch (err) {
         console.log(err);
-        res.status(400).json({
+        res.status(500).json({
             success: false,
             message: err
         });
@@ -32,47 +32,10 @@ const getUserById = async (req, res) => {
         });
     } catch (err) {
         console.log(err);
-        res.status(400).json({
+        res.status(500).json({
             success: false,
             message: err
         });
-    }
-}
-
-// POST /admin/users - create user
-const createUser = async (req, res) => {
-    try {
-        const user = await User.create(req.body);
-        res.status(200).json({
-            success: true,
-            message: "User created successfully",
-            user: user
-        });
-    } catch (err) {
-        console.log(err);
-        res.status(400).json({
-            success: false,
-            message: err
-        });
-    }
-}
-
-// PUT /admin/users/:id - update user
-const updateUser = async (req, res) => {
-    try {
-        const userId = mongoose.Types.ObjectId(req.params.id);
-        const user = await User.findByIdAndUpdate(userId, req.body, { new: true });
-        res.status(200).json({
-            success: true,
-            message: "User updated successfully",
-            user: user
-        });
-    } catch (err) {
-        console.log(err);
-        res.status(400).json({
-            success: false,
-            message: err
-        });  
     }
 }
 
@@ -87,7 +50,7 @@ const deleteUser = async (req, res) => {
         });
     } catch (err) {
         console.log(err);
-        res.status(400).json({
+        res.status(500).json({
             success: false,
             message: err
         });
@@ -97,7 +60,7 @@ const deleteUser = async (req, res) => {
 // Project Controllers
 const getAllProjects = async (req, res) => {
     try {
-        const projects = await Project.find({});
+        const projects = await Project.find({}).populate('projectOwner');
         res.status(200).json({
             success: true,
             message: "All projects",
@@ -105,7 +68,7 @@ const getAllProjects = async (req, res) => {
         });
     } catch (err) {
         console.log(err);
-        res.status(400).json({
+        res.status(500).json({
             success: false,
             message: err
         });
@@ -114,7 +77,7 @@ const getAllProjects = async (req, res) => {
 
 const getProjectById = async (req, res) => {
     try {
-        const project = await Project.findById(req.params.id);
+        const project = await Project.findById(req.params.id).populate('projectOwner');
         res.status(200).json({
             success: true,
             message: "Project found",
@@ -122,43 +85,7 @@ const getProjectById = async (req, res) => {
         });
     } catch (err) {
         console.log(err);
-        res.status(400).json({
-            success: false,
-            message: err
-        });
-    }
-}
-
-// POST /admin/projects - create project
-const createProject = async (req, res) => {
-    try {
-        const project = await Project.create(req.body);
-        res.status(200).json({
-            success: true,
-            message: "Project created successfully",
-            project: project
-        });
-    } catch (err) {
-        console.log(err);
-        res.status(400).json({
-            success: false,
-            message: err
-        });
-    }
-}
-
-// PUT /admin/projects/:id - update project
-const updateProject = async (req, res) => {
-    try {
-        const project = await Project.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        res.status(200).json({
-            success: true,
-            message: "Project updated successfully",
-            project: project
-        });
-    } catch (err) {
-        console.log(err);
-        res.status(400).json({
+        res.status(500).json({
             success: false,
             message: err
         });
@@ -176,7 +103,7 @@ const deleteProject = async (req, res) => {
         });
     } catch (err) {
         console.log(err);
-        res.status(400).json({
+        res.status(500).json({
             success: false,
             message: err
         });
@@ -186,7 +113,7 @@ const deleteProject = async (req, res) => {
 // Section Controllers
 const getAllSections = async (req, res) => {
     try {
-        const sections = await Section.find({});
+        const sections = await Section.find({}).populate('projectId');
         res.status(200).json({
             success: true,
             message: "All sections",
@@ -194,7 +121,7 @@ const getAllSections = async (req, res) => {
         });
     } catch (err) {
         console.log(err);
-        res.status(400).json({
+        res.status(500).json({
             success: false,
             message: err
         });
@@ -203,7 +130,7 @@ const getAllSections = async (req, res) => {
 
 const getSectionById = async (req, res) => {
     try {
-        const section = await Section.findById(req.params.id);
+        const section = await Section.findById(req.params.id).populate('projectId');
         res.status(200).json({
             success: true,
             message: "Section found",
@@ -211,43 +138,7 @@ const getSectionById = async (req, res) => {
         });
     } catch (err) {
         console.log(err);
-        res.status(400).json({
-            success: false,
-            message: err
-        });
-    }
-}
-
-// POST /admin/sections - create section
-const createSection = async (req, res) => {
-    try {
-        const section = await Section.create(req.body);
-        res.status(200).json({
-            success: true,
-            message: "Section created successfully",
-            section: section
-        });
-    } catch (err) {
-        console.log(err);
-        res.status(400).json({
-            success: false,
-            message: err
-        });
-    }
-}
-
-// PUT /admin/sections/:id - update section
-const updateSection = async (req, res) => {
-    try {
-        const section = await Section.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        res.status(200).json({
-            success: true,
-            message: "Section updated successfully",
-            section: section
-        });
-    } catch (err) {
-        console.log(err);
-        res.status(400).json({
+        res.status(500).json({
             success: false,
             message: err
         });
@@ -265,7 +156,7 @@ const deleteSection = async (req, res) => {
         });
     } catch (err) {
         console.log(err);
-        res.status(400).json({
+        res.status(500).json({
             success: false,
             message: err
         });
@@ -275,7 +166,7 @@ const deleteSection = async (req, res) => {
 // Task Controllers
 const getAllTasks = async (req, res) => {
     try {
-        const tasks = await Task.find({});
+        const tasks = await Task.find({}).populate('taskCreator');
         res.status(200).json({
             success: true,
             message: "All tasks",
@@ -283,7 +174,7 @@ const getAllTasks = async (req, res) => {
         });
     } catch (err) {
         console.log(err);
-        res.status(400).json({
+        res.status(500).json({
             success: false,
             message: err
         });
@@ -292,7 +183,7 @@ const getAllTasks = async (req, res) => {
 
 const getTaskById = async (req, res) => {
     try {
-        const task = await Task.findById(req.params.id);
+        const task = await Task.findById(req.params.id).populate('taskCreator');
         res.status(200).json({
             success: true,
             message: "Task found",
@@ -300,42 +191,7 @@ const getTaskById = async (req, res) => {
         });
     } catch (err) {
         console.log(err);
-        res.status(400).json({
-            success: false,
-            message: err
-        });
-    }
-}
-
-// POST /admin/tasks - create task
-const createTask = async (req, res) => {
-    try {
-        const task = await Task.create(req.body);
-        res.status(200).json({
-            success: true,
-            message: "Task created successfully",
-            task: task
-        });
-    } catch (err) {
-        console.log(err);
-        res.status(400).json({
-            success: false,
-            message: err
-        });
-    }
-}
-
-const updateTask = async (req, res) => {
-    try {
-        const task = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        res.status(200).json({
-            success: true,
-            message: "Task updated successfully",
-            task: task
-        });
-    } catch (err) {
-        console.log(err);
-        res.status(400).json({
+        res.status(500).json({
             success: false,
             message: err
         });
@@ -353,11 +209,11 @@ const deleteTask = async (req, res) => {
         });
     } catch (err) {
         console.log(err);
-        res.status(400).json({
+        res.status(500).json({
             success: false,
             message: err
         });
     }
 }
 
-module.exports = {getAllUsers, getUserById, createUser, updateUser, deleteUser, getAllProjects, getProjectById, createProject, updateProject, deleteProject, getAllSections, getSectionById, createSection, updateSection, deleteSection, getAllTasks, getTaskById, createTask, updateTask, deleteTask } ;
+module.exports = {getAllUsers, getUserById,  deleteUser, getAllProjects, getProjectById, deleteProject, getAllSections, getSectionById, deleteSection, getAllTasks, getTaskById, deleteTask } ;

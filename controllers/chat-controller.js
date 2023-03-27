@@ -19,7 +19,7 @@ const getChatsProject = async (req, res) => {
             chats: chats,
           });
     } catch (error) {
-        res.status(400).json({
+        res.status(500).json({
             success: false,
             message: error
         });
