@@ -51,7 +51,7 @@ const corsOptions = {
 // const specs = swaggerJsDoc(options);
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(apiDoc));
 
-app.use(morgan('tiny',{ stream: accessLogStream }))
+app.use(morgan('tiny', { stream: accessLogStream }))
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 // app.use(cors);
@@ -82,23 +82,23 @@ app.use('/admin', require('./routes/admin-routes'));
 
 const io = new Server(server, {
     pingTimeout: 60000,
-    cors:{
+    cors: {
         origin: "http://localhost:4001",
     },
 })
 
 io.on("connection", (socket) => {
     console.log(`User Connected: ${socket.id}`);
-    socket.on("load_project", (data)=>{
+    socket.on("load_project", (data) => {
         socket.join(data)
     })
-    socket.on("send_message", (data)=>{
-        console.log("dfd",data)
-        const send  = async ()=>{
+    socket.on("send_message", (data) => {
+        console.log("dfd", data)
+        const send = async () => {
             try {
                 const status = new Chats(data);
             } catch (error) {
-                
+
             }
         }
         socket.to(data.projectid).emit("receive_message", data)
