@@ -9,6 +9,9 @@ const app = express();
 const cors = require("cors");
 const swaggerUI = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
+const Chats = require("./models/Chats");
+// const { sendProjectMessage } = require('./controllers/chat-controller');
+// const { default: ChatEditor } = require('../ATMOS-react/src/pages/ProjectDashboard/Board/ChatEditor');
 
 const corsOptions = {
     origin: '*',
@@ -68,12 +71,26 @@ app.use('/admin', require('./routes/admin-routes'));
 const io = new Server(server, {
     pingTimeout: 60000,
     cors:{
-        origin: "http://localhost:3000",
+        origin: "http://localhost:4001",
     },
 })
 
 io.on("connection", (socket) => {
     console.log(`User Connected: ${socket.id}`);
+    socket.on("load_project", (data)=>{
+        socket.join(data)
+    })
+    socket.on("send_message", (data)=>{
+        console.log("dfd",data)
+        const send  = async ()=>{
+            try {
+                const status = new Chats(data);
+            } catch (error) {
+                
+            }
+        }
+        socket.to(data.projectid).emit("receive_message", data)
+    })
     socket.on("disconnect", () => {
         console.log("User Disconnected", socket.id);
     })
