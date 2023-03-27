@@ -39,7 +39,6 @@ const corsOptions = {
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(apiDoc));
 
 
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 // app.use(cors);

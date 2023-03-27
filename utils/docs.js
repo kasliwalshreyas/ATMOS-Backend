@@ -80,7 +80,7 @@ exports.apiDoc = {
                             },
                         },
                     },
-                    400: {
+                    500: {
                         description: 'Bad request',
                         content: {
                             'application/json': {
@@ -175,7 +175,7 @@ exports.apiDoc = {
                             },
                         },
                     },
-                    400: {
+                    500: {
                         description: 'Bad request',
                         content: {
                             'application/json': {

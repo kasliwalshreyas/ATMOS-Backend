@@ -39,7 +39,7 @@ const createSection = async (req, res) => {
         });
     } catch (err) {
         console.log(err, "Error from section controller -> createSection");
-        res.status(400).json({
+        res.status(500).json({
             success: false,
             message: err,
         });
@@ -75,7 +75,7 @@ const updateSectionName = async (req, res) => {
     }
     catch (err) {
         console.log(err, "Error from section controller -> updateSectionName");
-        res.status(400).json({
+        res.status(500).json({
             success: false,
             message: err,
         });
@@ -117,7 +117,7 @@ const deleteSection = async (req, res) => {
     }
     catch (err) {
         console.log(err, "Error from section controller -> deleteSection");
-        res.status(400).json({
+        res.status(500).json({
             success: false,
             message: err,
         });

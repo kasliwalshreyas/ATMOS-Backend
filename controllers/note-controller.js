@@ -33,7 +33,7 @@ const create = async (req, res) => {
     });
   } catch (err) {
     console.log(err, "error from create->note-controller");
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: err,
     });
@@ -58,7 +58,7 @@ const getNoteList = async (req, res) => {
     });
   } catch (err) {
     console.log(err, "Error from getNoteList");
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: err,
     });
@@ -76,7 +76,7 @@ const getNote = async(req, res) => {
       note: note
     })
   } catch (err){
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: err,
     })
@@ -109,7 +109,7 @@ const updateNote = async (req, res) => {
       note: updatedNote,
     });
   } catch (err) {
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: err,
     });
