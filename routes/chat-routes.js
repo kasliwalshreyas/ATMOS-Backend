@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../middlewares/auth');
 const { getChatsProject, getChatsUser, sendProjectMessage } = require('../controllers/chat-controller');
-
 router.use(auth);
 
 // router.post('/updateChat', updateChat);

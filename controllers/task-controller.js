@@ -258,7 +258,7 @@ const updateTask = async (req, res) => {
     }
   } catch (err) {
     console.log(err, "Error from task controller -> updateTask");
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: err,
     });
@@ -280,7 +280,7 @@ const getTaskList = async (req, res) => {
     });
   } catch (err) {
     console.log(err, "Error from project controller -> getUserProjects");
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: err,
     });
@@ -347,7 +347,7 @@ const deleteTask = async (req, res) => {
     });
   } catch (err) {
     console.log(err, "Error from task controller -> deleteTask");
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: err,
     });
@@ -379,7 +379,7 @@ const getDiscussionThread = async (req, res) => {
 
   } catch (err) {
     console.log(err, "Error from discussion controller -> getDiscussionList");
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: err,
     });
@@ -419,7 +419,7 @@ const createDiscussionThread = async (req, res) => {
     });
   } catch (err) {
     console.log(err, "Error from discussion controller -> createDiscussion");
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: err,
     });
@@ -454,7 +454,7 @@ const deleteDiscussionThread = async (req, res) => {
     });
   } catch (err) {
     console.log(err, "Error from discussion controller -> deleteDiscussion");
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: err,
 

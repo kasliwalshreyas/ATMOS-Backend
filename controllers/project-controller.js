@@ -63,7 +63,7 @@ const create = async (req, res) => {
     });
   } catch (err) {
     // console.log(err, "Error from project controller -> create");
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: err,
     });
@@ -131,7 +131,7 @@ const deleteProject = async (req, res) => {
     });
   } catch (err) {
     console.log(err, "Error from project controller -> deleteProject");
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: err,
     });
@@ -180,7 +180,7 @@ const updateLastUsed = async (req, res) => {
     });
   } catch (err) {
     console.log(err, "Error from project controller -> updateProject");
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: err,
     });
@@ -220,7 +220,7 @@ const getUserProjects = async (req, res) => {
     });
   } catch (err) {
     // console.log(err, "Error from project controller -> getUserProjects");
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: err,
     });
@@ -250,7 +250,7 @@ const getProjectDetails = async (req, res) => {
     });
   } catch (err) {
     console.log(err, "Error from project controller -> getProjectDetails");
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: err,
     });
@@ -313,7 +313,7 @@ const addTeamMember = async (req, res) => {
     });
   } catch (err) {
     console.log(err, "Error from project controller -> addTeamMember");
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: err,
     });
@@ -347,7 +347,7 @@ const transferOwnership = async (req, res) => {
     });
   } catch (err) {
     console.log(err, "Error from project controller -> transferOwnership");
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: err,
     });
@@ -448,7 +448,7 @@ const changeUserAccessLevel = async (req, res) => {
 
     }
     else {
-      res.status(400).json({
+      res.status(500).json({
         success: false,
         message: "You don't have high access to this project",
       });
@@ -456,7 +456,7 @@ const changeUserAccessLevel = async (req, res) => {
 
   } catch (err) {
     console.log(err, "Error from project controller -> changeUserAccessLevel");
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: 'Something went wrong!',
       error: err,
@@ -532,7 +532,7 @@ const removeTeamMember = async (req, res) => {
 
     }
     else {
-      res.status(400).json({
+      res.status(500).json({
         success: false,
         message: "You don't have high access to this project",
       });
@@ -540,7 +540,7 @@ const removeTeamMember = async (req, res) => {
 
   } catch (err) {
     console.log(err, "Error from project controller -> removeTeamMember");
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       error: err,
       message: 'Something went wrong!'

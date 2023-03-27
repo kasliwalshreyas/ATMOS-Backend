@@ -15,7 +15,7 @@ const getAllUsers = async (req, res) => {
         });
     } catch (err) {
         console.log(err);
-        res.status(400).json({
+        res.status(500).json({
             success: false,
             message: err
         });
@@ -32,7 +32,7 @@ const getUserById = async (req, res) => {
         });
     } catch (err) {
         console.log(err);
-        res.status(400).json({
+        res.status(500).json({
             success: false,
             message: err
         });
@@ -50,7 +50,7 @@ const deleteUser = async (req, res) => {
         });
     } catch (err) {
         console.log(err);
-        res.status(400).json({
+        res.status(500).json({
             success: false,
             message: err
         });
@@ -68,7 +68,7 @@ const getAllProjects = async (req, res) => {
         });
     } catch (err) {
         console.log(err);
-        res.status(400).json({
+        res.status(500).json({
             success: false,
             message: err
         });
@@ -85,7 +85,7 @@ const getProjectById = async (req, res) => {
         });
     } catch (err) {
         console.log(err);
-        res.status(400).json({
+        res.status(500).json({
             success: false,
             message: err
         });
@@ -103,7 +103,7 @@ const deleteProject = async (req, res) => {
         });
     } catch (err) {
         console.log(err);
-        res.status(400).json({
+        res.status(500).json({
             success: false,
             message: err
         });
@@ -121,7 +121,7 @@ const getAllSections = async (req, res) => {
         });
     } catch (err) {
         console.log(err);
-        res.status(400).json({
+        res.status(500).json({
             success: false,
             message: err
         });
@@ -138,7 +138,7 @@ const getSectionById = async (req, res) => {
         });
     } catch (err) {
         console.log(err);
-        res.status(400).json({
+        res.status(500).json({
             success: false,
             message: err
         });
@@ -156,7 +156,7 @@ const deleteSection = async (req, res) => {
         });
     } catch (err) {
         console.log(err);
-        res.status(400).json({
+        res.status(500).json({
             success: false,
             message: err
         });
@@ -174,7 +174,7 @@ const getAllTasks = async (req, res) => {
         });
     } catch (err) {
         console.log(err);
-        res.status(400).json({
+        res.status(500).json({
             success: false,
             message: err
         });
@@ -191,7 +191,7 @@ const getTaskById = async (req, res) => {
         });
     } catch (err) {
         console.log(err);
-        res.status(400).json({
+        res.status(500).json({
             success: false,
             message: err
         });
@@ -209,7 +209,7 @@ const deleteTask = async (req, res) => {
         });
     } catch (err) {
         console.log(err);
-        res.status(400).json({
+        res.status(500).json({
             success: false,
             message: err
         });

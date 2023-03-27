@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { registerValidation, loginValidation } = require('../config/validation');
 const { default: mongoose } = require('mongoose');
+const transporter = require('../config/transporter');
 
 const sharp = require("sharp");
 const { populate } = require('../models/User');
@@ -12,11 +13,11 @@ const register = async (req, res) => {
         // Validate the data before we make a user
         // console.log(req.body);
         const error = registerValidation(req.body);
-        if (error) return res.status(400).json({ success: false, message: error });
+        if (error) return res.status(500).json({ success: false, message: error });
 
         // Check if the user is already in the database
         const emailExists = await User.findOne({ email: req.body.email });
-        if (emailExists) return res.status(400).json({ success: false, message: 'Email already exists' });
+        if (emailExists) return res.status(500).json({ success: false, message: 'Email already exists' });
 
         // Hash the password
         const salt = await bcrypt.genSalt(10);
@@ -34,7 +35,7 @@ const register = async (req, res) => {
             user: user._id
         });
     } catch (err) {
-        res.status(400).json({
+        res.status(500).json({
             success: false,
             message: err
         });
@@ -45,19 +46,19 @@ const login = async (req, res) => {
     try {
         // Validate the data before we make a user
         const error = loginValidation(req.body);
-        if (error) return res.status(400).json({ success: false, message: error });
+        if (error) return res.status(500).json({ success: false, message: error });
 
         // Check if the email exists
         const user = await User.findOne({ email: req.body.email });
-        if (!user) return res.status(400).json({ success: false, message: 'Email is not found' });
+        if (!user) return res.status(500).json({ success: false, message: 'Email is not found' });
 
         // Check if the password is correct
         const validPass = await bcrypt.compare(req.body.password, user.password);
-        if (!validPass) return res.status(400).json({ success: false, message: 'Invalid Password! Password do not match!' });
+        if (!validPass) return res.status(500).json({ success: false, message: 'Invalid Password! Password do not match!' });
 
         // Create and assign a token
         const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, { expiresIn: '8h' });
-        res.header('auth-token', token).send({
+        res.header('Authorization', token).send({
             success: true,
             message: "Login Success",
             token: token,
@@ -65,7 +66,7 @@ const login = async (req, res) => {
         });
     } catch (err) {
         // console.log(err, "Error from user controller -> login");
-        res.status(400).send({
+        res.status(500).send({
             success: false,
             message: err
         });
@@ -104,7 +105,7 @@ const getUserInfo = async (req, res) => {
             user: user
         });
     } catch (err) {
-        res.status(400).json({
+        res.status(500).json({
             success: false,
             message: err
         });
@@ -125,7 +126,7 @@ const getUserList = async (req, res) => {
             userList: userList
         });
     } catch (err) {
-        res.status(400).json({
+        res.status(500).json({
             success: false,
             message: err
         });
@@ -146,7 +147,7 @@ const uploadAvatar = async (req, res) => {
             user: user
         });
     } catch (err) {
-        res.status(400).json({
+        res.status(500).json({
             success: false,
             message: "Something went wrong!",
             error: err
@@ -168,7 +169,7 @@ const addProjectToFavorite = async (req, res) => {
         });
     } catch (err) {
         console.log(err, "Error from user controller -> addProjectToFavorite");
-        res.status(400).json({
+        res.status(500).json({
             success: false,
             message: err
         });
@@ -188,7 +189,7 @@ const removeProjectFromFavorite = async (req, res) => {
         });
     } catch (err) {
         console.log(err, "Error from user controller -> addProjectToFavorite");
-        res.status(400).json({
+        res.status(500).json({
             success: false,
             message: err
         });
@@ -208,7 +209,7 @@ const updateUser = async (req, res) => {
         });
     } catch (err) {
         console.log(err);
-        res.status(400).json({
+        res.status(500).json({
             success: false,
             message: "Something went wrong!",
             error: err
@@ -218,8 +219,31 @@ const updateUser = async (req, res) => {
 
 
 
+const contact = async (req, res) => {
+    try {
+        console.log(req.body);
+        // const { name, email, message } = req.body;
+        // const mailOptions = {
+        //     from: email,
+        //     to: process.env.EMAIL,
+        //     subject: `Message from ${name}`,
+        //     text: message
+        // };
+        // await transporter.sendMail(mailOptions);
+        // res.status(200).json({
+        //     success: true,
+        //     message: "Message sent successfully"
+        // });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            success: false,
+            message: "Something went wrong!",
+            error: err
+        });
+    }
+}
 
 
 
-
-module.exports = { register, login, getUserInfo, getUserList, addProjectToFavorite, removeProjectFromFavorite, uploadAvatar, updateUser };
+module.exports = { contact, register, login, getUserInfo, getUserList, addProjectToFavorite, removeProjectFromFavorite, uploadAvatar, updateUser };
