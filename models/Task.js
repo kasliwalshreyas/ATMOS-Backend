@@ -52,7 +52,8 @@ const taskSchema = new mongoose.Schema({
         minlength: 0
     },
     taskCreator: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectID,
+        ref: "User",
         required: true,
         unique: false,
         minlength: 0
