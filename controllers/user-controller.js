@@ -82,21 +82,21 @@ const getUserInfo = async (req, res) => {
             path: "projectIdList",
             model: "Project",
             populate: [
-                { 
+                {
                     path: "projectHighAccessMembers",
-                    model : 'User',
+                    model: 'User',
                 },
                 {
                     path: "projectMediumAccessMembers",
-                    model : 'User',
+                    model: 'User',
                 },
                 {
                     path: "projectLowAccessMembers",
-                    model : 'User',
+                    model: 'User',
                 },
             ]
-            })
-        .populate('taskAssignedIdList').select({ password: 0 });
+        })
+            .populate('taskAssignedIdList').populate('favProjectIdList').select({ password: 0 });
 
         res.status(200).json({
             success: true,

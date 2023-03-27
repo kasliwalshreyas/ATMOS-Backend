@@ -10,8 +10,6 @@ router.delete('/deleteTask/:id', deleteTask);
 router.get('/getDiscussionThread/:id', getDiscussionThread);
 router.post('/createDiscussionThread/:id', createDiscussionThread);
 router.delete('/deleteDiscussionThread/:id/:threadId', deleteDiscussionThread);
-
-
 router.get('/getTaskList/', getTaskList); //created by Einstein
 
 

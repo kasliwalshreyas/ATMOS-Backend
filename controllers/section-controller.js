@@ -34,6 +34,7 @@ const createSection = async (req, res) => {
 
         res.status(200).json({
             success: true,
+            message: "Create section successfully",
             section: savedSection,
             project: projectInfo,
         });
@@ -69,6 +70,7 @@ const updateSectionName = async (req, res) => {
 
         res.status(200).json({
             success: true,
+            message: "Update section name successfully",
             section: section,
         });
 
