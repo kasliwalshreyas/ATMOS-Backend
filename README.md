@@ -1,11 +1,20 @@
 # ATMOS-Backend
 
+- This is the backend of ATMOS. ATMOS is a project management tool.
+
+# Installation
+- Clone the repository using `git clone https://github.com/kasliwalshreyas/ATMOS-Backend.git`
+- Install the dependencies using `npm install`
+
+# Usage
 - To start the server, run `npm start` in the root directory.
 - Server will be running on port 4000 by default.
+
+# Database
+- MongoDB is used as the database.
 - Same MongoDB cluster is used which was used in the previous ATMOS NodeJS backend.
 - But the Database is different. It is `ATMOS` and not `ATMOS-sample-database`.
-
-
+- The database is hosted on MongoDB Atlas.
 
 # Pages
 
@@ -71,14 +80,14 @@
 ## Frontend
 - Login
 - Signup
-- Profile Page
+- Profile Page [Multer Middleware]
 - Admin portal
 
 
 ## Backend
 - Login
 - Signup
-- Profile page
+- Profile page [Multer Middleware]
 - Project Access Change
 - Project Remove Team Member
 - Admin Portal

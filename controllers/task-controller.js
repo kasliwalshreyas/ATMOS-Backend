@@ -275,6 +275,7 @@ const getTaskList = async (req, res) => {
 
     res.status(200).json({
       success: true,
+      message: "Task list fetched successfully",
       Tasks: Tasks,
     });
   } catch (err) {
