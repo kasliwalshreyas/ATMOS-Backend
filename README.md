@@ -62,6 +62,9 @@
 
 ## Backend
 - Message
+- Morgan
+- Swagger -> 2APIs
+- Help in Admin Portal
 
 # 4. Akash Yadav
 
