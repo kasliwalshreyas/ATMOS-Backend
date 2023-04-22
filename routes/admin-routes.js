@@ -4,29 +4,21 @@ const router = express.Router();
 // User routes for admin
 // GET /admin/users - get all users
 // GET /admin/users/:id - get user by id
-// POST /admin/users - create user
-// PUT /admin/users/:id - update user
 // DELETE /admin/users/:id - delete user
 
 // Project routes for admin
 // GET /admin/projects - get all projects
 // GET /admin/projects/:id - get project by id
-// POST /admin/projects - create project
-// PUT /admin/projects/:id - update project
 // DELETE /admin/projects/:id - delete project
 
 // Section routes for admin
 // GET /admin/sections - get all sections
 // GET /admin/sections/:id - get section by id
-// POST /admin/sections - create section
-// PUT /admin/sections/:id - update section
 // DELETE /admin/sections/:id - delete section
 
 // Task routes for admin
 // GET /admin/tasks - get all tasks
 // GET /admin/tasks/:id - get task by id
-// POST /admin/tasks - create task
-// PUT /admin/tasks/:id - update task
 // DELETE /admin/tasks/:id - delete task
 
 // user model
@@ -38,10 +30,10 @@ const Section = require('../models/Section');
 // task model
 const Task = require('../models/Task');
 
-const { getAllUsers, getUserById, createUser, updateUser, deleteUser } = require('../controllers/admin-controller');
-const { getAllProjects, getProjectById, createProject, updateProject, deleteProject } = require('../controllers/admin-controller');
-const { getAllSections, getSectionById, createSection, updateSection, deleteSection } = require('../controllers/admin-controller');
-const { getAllTasks, getTaskById, createTask, updateTask, deleteTask } = require('../controllers/admin-controller');
+const { getAllUsers, getUserById, deleteUser } = require('../controllers/admin-controller');
+const { getAllProjects, getProjectById, deleteProject } = require('../controllers/admin-controller');
+const { getAllSections, getSectionById, deleteSection } = require('../controllers/admin-controller');
+const { getAllTasks, getTaskById, deleteTask } = require('../controllers/admin-controller');
 
 // Middleware to set headers
 router.use((req, res, next) => {
