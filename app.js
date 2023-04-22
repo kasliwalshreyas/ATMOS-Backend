@@ -16,6 +16,7 @@ const parseForm = bodyParser.urlencoded({ extended: false })
 const { apiDoc } = require('./utils/docs');
 const corsOptions = {
     origin: 'http://localhost:4001',
+    origin: 'http://localhost:4001',
     credentials: true,            //access-control-allow-credentials:true
     optionSuccessStatus: 200,
 
@@ -35,10 +36,39 @@ app.use('/section', require('./routes/section-routes'));
 app.use('/task', require('./routes/task-routes'));
 app.use('/note', require('./routes/note-routes'));
 app.use('/chat', require('./routes/chat-routes'));
-app.use('/message', require('./routes/message-routes'));
 app.use('/admin', require('./routes/admin-routes'));
 
-app.listen(port, () => {
+const server = http.createServer(app);
+
+const io = new Server(server, {
+    pingTimeout: 60000,
+    cors:{
+        origin: "http://localhost:4001",
+    },
+})
+
+io.on("connection", (socket) => {
+    console.log(`User Connected: ${socket.id}`);
+    socket.on("load_project", (data)=>{
+        socket.join(data)
+    })
+    socket.on("send_message", (data)=>{
+        console.log("dfd",data)
+        const send  = async ()=>{
+            try {
+                const status = new Chats(data);
+            } catch (error) {
+                
+            }
+        }
+        socket.to(data.projectid).emit("receive_message", data)
+    })
+    socket.on("disconnect", () => {
+        console.log("User Disconnected", socket.id);
+    })
+})
+
+server.listen(port, () => {
     console.log(`ATMOS Backend server started on port ${port}`);
 });
 
