@@ -46,6 +46,10 @@ const server = app.listen(port, () => {
 
 module.exports = { app, server };
 
+app.get('/', (req, res) => {
+    res.send('ATMOS Backend Server');
+});
+
 // To Do
 
 // TASK
