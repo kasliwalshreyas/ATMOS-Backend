@@ -16,10 +16,8 @@ const parseForm = bodyParser.urlencoded({ extended: false })
 const { apiDoc } = require('./utils/docs');
 const corsOptions = {
     origin: process.env.FRONTEND_URL,
-    origin: process.env.FRONTEND_URL,
-    credentials: true,            //access-control-allow-credentials:true
+    // credentials: true,            //access-control-allow-credentials:true
     optionSuccessStatus: 200,
-
 }
 
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(apiDoc));
