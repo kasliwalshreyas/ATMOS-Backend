@@ -15,15 +15,15 @@ var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), {
 const parseForm = bodyParser.urlencoded({ extended: false })
 const { apiDoc } = require('./utils/docs');
 const corsOptions = {
-    origin: 'http://localhost:4001',
-    origin: 'http://localhost:4001',
+    origin: process.env.FRONTEND_URL,
+    origin: process.env.FRONTEND_URL,
     credentials: true,            //access-control-allow-credentials:true
     optionSuccessStatus: 200,
 
 }
 
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(apiDoc));
-app.use(morgan('tiny',{ stream: accessLogStream }))
+app.use(morgan('tiny', { stream: accessLogStream }))
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -38,37 +38,7 @@ app.use('/note', require('./routes/note-routes'));
 app.use('/chat', require('./routes/chat-routes'));
 app.use('/admin', require('./routes/admin-routes'));
 
-const server = http.createServer(app);
-
-const io = new Server(server, {
-    pingTimeout: 60000,
-    cors:{
-        origin: "http://localhost:4001",
-    },
-})
-
-io.on("connection", (socket) => {
-    console.log(`User Connected: ${socket.id}`);
-    socket.on("load_project", (data)=>{
-        socket.join(data)
-    })
-    socket.on("send_message", (data)=>{
-        console.log("dfd",data)
-        const send  = async ()=>{
-            try {
-                const status = new Chats(data);
-            } catch (error) {
-                
-            }
-        }
-        socket.to(data.projectid).emit("receive_message", data)
-    })
-    socket.on("disconnect", () => {
-        console.log("User Disconnected", socket.id);
-    })
-})
-
-server.listen(port, () => {
+app.listen(port, () => {
     console.log(`ATMOS Backend server started on port ${port}`);
 });
 
