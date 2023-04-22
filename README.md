@@ -70,6 +70,9 @@
 ## Backend
 - Message
 - Morgan Middleware
+- Morgan
+- Swagger -> 2APIs
+- Help in Admin Portal
 
 # 4. Akash Yadav
 

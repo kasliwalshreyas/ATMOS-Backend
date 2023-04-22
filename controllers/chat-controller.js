@@ -1,22 +1,67 @@
 const User = require("../models/User");
 const Project = require("../models/Project");
-const Chats = require("../models/Chats");
+const Messages = require("../models/Messages");
+const Chat = require("../models/Chat");
 const mongoose = require("mongoose");
 
+const createChat = async(req,res) => {
+    const newChat = new Chat({
+        members: [req.body.senderId, req.body.receiverId],
+    })
+
+    try {
+        const chat = await Chat.findOne({
+            members: { $all: [req.body.senderId, req.body.receiverId] },
+        });
+        console.log("similar found", chat)
+        if(chat === null){
+            const result = await newChat.save();
+            res.status(200).json(result);
+        }
+      } catch (error) {
+        res.status(500).json(error);
+      }
+}
+
+const userChats = async (req, res) => {
+    try {
+      const chat = await Chat.find({
+        members: { $in: [req.params.userId] },
+      });
+      res.status(200).json(chat);
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  };
+  
+  const findChat = async (req, res) => {
+    try {
+      const chat = await Chat.findOne({
+        members: { $all: [req.params.firstId, req.params.secondId] },
+      });
+      res.status(200).json(chat)
+    } catch (error) {
+      res.status(500).json(error)
+    }
+  };
+
+
+
+  
 const getChatsProject = async (req, res) => {
     try {
         const projectId = mongoose.Types.ObjectId(req.params.id);
         console.log(projectId);
-        const projectInfo = await Project.findById(projectId);
+        const projectInfo = await Project.findById(projectId).populate("projectMessages");
         // const projectChats = projectInfo.projectChatList;
-        const chats = await Chats.find({ projectid: projectId}).populate("senderid")
-        .populate("receiverid")
-        .populate("projectid")
-        .populate("message")
-        .populate("createdAt")
+        // const chats = await Chats.find({ projectid: projectId}).populate("senderid")
+        // .populate("receiverid")
+        // .populate("projectid")
+        // .populate("message")
+        // .populate("createdAt")
         res.status(200).json({
             success: true,
-            chats: chats,
+            chats: projectInfo.projectMessages,
           });
     } catch (error) {
         res.status(500).json({
@@ -110,5 +155,8 @@ const sendPersonalMessage = async (req,res) => {
 module.exports = {
     getChatsUser,
     getChatsProject,
-    sendProjectMessage
+    sendProjectMessage,
+    createChat,
+    userChats,
+    findChat,
 };
