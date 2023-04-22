@@ -1301,9 +1301,600 @@ exports.apiDoc = {
                 },
             },
         },
+        '/section/create': {
+            post: {
+                summary: 'Create Section',
+                tags: ['Section'],
+                security: [
+                    {
+                        bearerAuth: [],
+                    },
+                ],
+                requestBody: {
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    sectionName: {
+                                        type: 'string',
+                                        description: 'The section name',
+                                    },
+                                    projectId: {
+                                        type: 'string',
+                                        description: 'The project id',
+                                        required: true,
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+                responses: {
+                    200: {
+                        description: 'The section was successfully created',
+                        content: {
+                            'application/json': {
+                                schema: {
+                                    type: 'object',
+                                    properties: {
+                                        success: {
+                                            type: 'boolean',
+                                            description: 'Success status',
+                                        },
+                                        message: {
+                                            type: 'string',
+                                            description: 'Message',
+                                        },
+                                        section: {
+                                            $ref: '#/components/schemas/Section',
+                                        },
+                                        project: {
+                                            $ref: '#/components/schemas/Project',
+                                        }
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    500: {
+                        description: 'Some server error',
+                        content: {
+                            'application/json': {
+                                schema: {
+                                    type: 'object',
+                                    properties: {
+                                        success: {
+                                            type: 'boolean',
+                                            description: 'Success status',
+                                        },
+                                        message: {
+                                            type: 'string',
+                                            description: 'Message',
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+        '/section/renameSection/{id}': {
+            put: {
+                summary: 'Update Section',
+                tags: ['Section'],
+                parameters: [
+                    {
+                        name: 'id',
+                        in: 'path',
+                        description: 'Section id',
+                        required: true,
+                        schema: {
+                            type: 'string',
+                            description: 'Section id',
+                        },
+                    },
+                ],
+                security: [
+                    {
+                        bearerAuth: [],
+                    },
+                ],
+                requestBody: {
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    sectionName: {
+                                        type: 'string',
+                                        description: 'The section name',
+                                    },
+
+                                },
+                            },
+                        },
+                    },
+                },
+                responses: {
+                    200: {
+                        description: 'The section was successfully renamed',
+                        content: {
+                            'application/json': {
+                                schema: {
+                                    type: 'object',
+                                    properties: {
+                                        success: {
+                                            type: 'boolean',
+                                            description: 'Success status',
+                                        },
+                                        message: {
+                                            type: 'string',
+                                            description: 'Message',
+                                        },
+                                        section: {
+                                            $ref: '#/components/schemas/Section',
+                                        },
+                                        project: {
+                                            $ref: '#/components/schemas/Project',
+                                        }
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    500: {
+                        description: 'Some server error',
+                        content: {
+                            'application/json': {
+                                schema: {
+                                    type: 'object',
+                                    properties: {
+                                        success: {
+                                            type: 'boolean',
+                                            description: 'Success status',
+                                        },
+                                        message: {
+                                            type: 'string',
+                                            description: 'Message',
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+        '/section/deleteSection/{id}': {
+            delete: {
+                summary: 'Delete Section',
+                tags: ['Section'],
+                parameters: [
+                    {
+                        name: 'id',
+                        in: 'path',
+                        description: 'Section id',
+                        required: true,
+                        schema: {
+                            type: 'string',
+                            description: 'Section id',
+                        },
+                    },
+                ],
+                security: [
+                    {
+                        bearerAuth: [],
+                    },
+                ],
+                responses: {
+                    200: {
+                        description: 'The section was successfully deleted',
+                        content: {
+                            'application/json': {
+                                schema: {
+                                    type: 'object',
+                                    properties: {
+                                        success: {
+                                            type: 'boolean',
+                                            description: 'Success status',
+                                        },
+                                        message: {
+                                            type: 'string',
+                                            description: 'Message',
+                                        },
+                                        section: {
+                                            $ref: '#/components/schemas/Section',
+                                        },
+                                        project: {
+                                            $ref: '#/components/schemas/Project',
+                                        }
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    500: {
+                        description: 'Some server error',
+                        content: {
+                            'application/json': {
+                                schema: {
+                                    type: 'object',
+                                    properties: {
+                                        success: {
+                                            type: 'boolean',
+                                            description: 'Success status',
+                                        },
+                                        message: {
+                                            type: 'string',
+                                            description: 'Message',
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+        '/task/updateTask': {
+            post: {
+                summary: 'Update Task',
+                tags: ['Task'],
+                security: [
+                    {
+                        bearerAuth: [],
+                    },
+
+                ],
+                requestBody: {
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    task: {
+                                        $ref: '#/components/schemas/Task',
+                                    }
+                                },
+                            },
+                        },
+                    }
+                },
+                responses: {
+                    200: {
+                        description: 'The task was successfully updated',
+                        content: {
+                            'application/json': {
+                                schema: {
+                                    type: 'object',
+                                    properties: {
+                                        success: {
+                                            type: 'boolean',
+                                            description: 'Success status',
+                                        },
+                                        message: {
+                                            type: 'string',
+                                            description: 'Message',
+                                        },
+                                        task: {
+                                            $ref: '#/components/schemas/Task',
+                                        },
+                                        section: {
+                                            $ref: '#/components/schemas/Section',
+                                        },
+                                        project: {
+                                            $ref: '#/components/schemas/Project',
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    500: {
+                        description: 'Some server error',
+                        content: {
+                            'application/json': {
+                                schema: {
+                                    type: 'object',
+                                    properties: {
+                                        success: {
+                                            type: 'boolean',
+                                            description: 'Success status',
+                                        },
+                                        message: {
+                                            type: 'string',
+                                            description: 'Message',
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+
+        '/task/deleteTask/{id}': {
+            delete: {
+                summary: 'Delete Task',
+                tags: ['Task'],
+                parameters: [
+                    {
+                        name: 'id',
+                        in: 'path',
+
+                        description: 'Task id',
+                        required: true,
+                        schema: {
+                            type: 'string',
+                            description: 'Task id',
+                        },
+                    },
+                ],
+                security: [
+                    {
+                        bearerAuth: [],
+                    },
+                ],
+                responses: {
+                    200: {
+                        description: 'The task was successfully deleted',
+                        content: {
+                            'application/json': {
+                                schema: {
+                                    type: 'object',
+                                    properties: {
+                                        success: {
+                                            type: 'boolean',
+                                            description: 'Success status',
+                                        },
+                                        message: {
+                                            type: 'string',
+                                            description: 'Message',
+                                        },
+                                        task: {
+                                            $ref: '#/components/schemas/Task',
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    500: {
+                        description: 'Some server error',
+                        content: {
+                            'application/json': {
+                                schema: {
+                                    type: 'object',
+                                    properties: {
+                                        success: {
+                                            type: 'boolean',
+                                            description: 'Success status',
+                                        },
+                                        message: {
+                                            type: 'string',
+                                            description: 'Message',
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+        '/task/getDiscussionThread/{id}': {
+            get: {
+                summary: 'Get Discussion Thread',
+                tags: ['Task'],
+                parameters: [
+                    {
+                        name: 'id',
+                        in: 'path',
+                        description: 'Task id',
+                        required: true,
+                        schema: {
+                            type: 'string',
+                            description: 'Task id',
+                        },
+                    },
+                ],
+                security: [
+                    {
+                        bearerAuth: [],
+                    },
+                ],
+                responses: {
+                    200: {
+                        description: 'The discussion thread was successfully retrieved',
+                        content: {
+                            'application/json': {
+                                schema: {
+                                    type: 'object',
+                                    properties: {
+                                        success: {
+                                            type: 'boolean',
+                                            description: 'Success status',
+                                        },
+                                        message: {
+                                            type: 'string',
+                                            description: 'Message',
+                                        },
+                                        discussion: {
+                                            $ref: '#/components/schemas/DiscussionThread',
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    500: {
+                        description: 'Some server error',
+                        content: {
+                            'application/json': {
+                                schema: {
+                                    type: 'object',
+                                    properties: {
+                                        success: {
+                                            type: 'boolean',
+                                            description: 'Success status',
+                                        },
+                                        message: {
+                                            type: 'string',
+                                            description: 'Message',
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+        '/task/deleteDiscussionThread/{id}/{threadId}': {
+            delete: {
+                summary: 'Delete Discussion Thread',
+                tags: ['Task'],
+                parameters: [
+                    {
+                        name: 'id',
+                        in: 'path',
+                        description: 'Task id',
+                        required: true,
+                        schema: {
+                            type: 'string',
+                            description: 'Task id',
+                        },
+                    },
+                    {
+                        name: 'threadId',
+                        in: 'path',
+                        description: 'Thread id',
+                        required: true,
+                        schema: {
+                            type: 'string',
+                            description: 'Thread id',
+                        },
+                    },
+                ],
+                security: [
+                    {
+                        bearerAuth: [],
+                    },
+                ],
+                responses: {
+                    200: {
+                        description: 'The discussion thread was successfully deleted',
+                        content: {
+                            'application/json': {
+                                schema: {
+                                    type: 'object',
+                                    properties: {
+                                        success: {
+                                            type: 'boolean',
+                                            description: 'Success status',
+                                        },
+                                        message: {
+                                            type: 'string',
+                                            description: 'Message',
+                                        },
+                                        discussion: {
+                                            $ref: '#/components/schemas/DiscussionThread',
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+
+                    500: {
+                        description: 'Some server error',
+                        content: {
+
+                            'application/json': {
+                                schema: {
+                                    type: 'object',
+                                    properties: {
+                                        success: {
+                                            type: 'boolean',
+                                            description: 'Success status',
+                                        },
+                                        message: {
+                                            type: 'string',
+                                            description: 'Message',
+                                        },
+                                    },
+
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+        '/task/getTaskList': {
+            get: {
+                summary: 'Get Task List',
+                tags: ['Task'],
+                security: [
+                    {
+                        bearerAuth: [],
+                    },
+                ],
+                responses: {
+                    200: {
+                        description: 'The task list was successfully retrieved',
+                        content: {
+                            'application/json': {
+                                schema: {
+                                    type: 'object',
+                                    properties: {
+                                        success: {
+                                            type: 'boolean',
+                                            description: 'Success status',
+                                        },
+                                        message: {
+                                            type: 'string',
+                                            description: 'Message',
+                                        },
+                                        taskList: {
+                                            type: 'array',
+                                            items: {
+                                                $ref: '#/components/schemas/Task',
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    500: {
+                        description: 'Some server error',
+                        content: {
+
+                            'application/json': {
+                                schema: {
+                                    type: 'object',
+                                    properties: {
+                                        success: {
+                                            type: 'boolean',
+                                            description: 'Success status',
+                                        },
+                                        message: {
+                                            type: 'string',
+                                            description: 'Message',
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
     },
-
-
     components: {
         schemas: {
             User: {
@@ -1431,14 +2022,131 @@ exports.apiDoc = {
 
                 },
             },
-        },
-
-        securitySchemes: {
-            bearerAuth: {
-                type: 'http',
-                scheme: 'bearer',
-                bearerFormat: 'JWT',
+            Section: {
+                type: 'object',
+                properties: {
+                    _id: {
+                        type: 'string',
+                        description: 'The section id',
+                        required: true,
+                    },
+                    sectionName: {
+                        type: 'string',
+                        description: "The section's name",
+                        required: true,
+                    },
+                    projectId: {
+                        type: 'string',
+                        description: "The section's project id",
+                        required: true,
+                    },
+                    sectionTaskIdList: {
+                        type: 'array',
+                        description: "The section's task id list",
+                    },
+                },
             },
-        }
-    }
+            Task: {
+                type: 'object',
+                properties: {
+                    _id: {
+                        type: 'string',
+                        description: 'The task id',
+                        required: true,
+                    },
+                    taskName: {
+                        type: 'string',
+                        description: "The task's name",
+                        required: true,
+                    },
+                    taskDescription: {
+                        type: 'string',
+                        description: "The task's description",
+                    },
+                    taskCompletion: {
+                        type: 'boolean',
+                        description: "The task's completion",
+                    },
+                    taskStatus: {
+                        type: 'string',
+                        description: "The task's status",
+                    },
+                    taskPriority: {
+                        type: 'string',
+                        description: "The task's priority",
+                    },
+                    taskAssigneeList: {
+                        type: 'array',
+                        description: "The task's assignee list",
+                    },
+                    taskSectionId: {
+                        type: 'string',
+                        description: "The task's section id",
+                    },
+                    taskProjectId: {
+                        type: 'string',
+                        description: "The task's project id",
+                    },
+                    taskCreator: {
+                        type: 'string',
+                        description: "The task's creator",
+                    },
+                    taskDeadline: {
+                        type: 'string',
+                        description: "The task's deadline",
+                    },
+                    taskDiscussion: {
+                        type: 'array',
+                        description: "The task's discussion",
+                    },
+                    taskCreatedAt: {
+                        type: 'string',
+                        description: "The task's creation date",
+                    },
+                    taskUpdatedAt: {
+                        type: 'string',
+                        description: "The task's update date",
+                    },
+                },
+            },
+            Note: {
+                type: 'object',
+                properties: {
+                    _id: {
+                        type: 'string',
+                        description: 'The note id',
+                        required: true,
+                    },
+                },
+            },
+            Discussion: {
+                type: 'object',
+                properties: {
+                    _id: {
+                        type: 'string',
+                        description: 'The discussion id',
+                        required: true,
+                    },
+                    discussionThread: {
+                        type: 'array',
+                        description: "The discussion's content",
+                        required: true,
+                    },
+                },
+            },
+        },
+    },
+
+    security: [
+        {
+            bearerAuth: [],
+        },
+    ],
+    securitySchemes: {
+        bearerAuth: {
+            type: 'http',
+            scheme: 'bearer',
+            bearerFormat: 'JWT',
+        },
+    },
 };
