@@ -42,6 +42,10 @@ app.listen(port, () => {
     console.log(`ATMOS Backend server started on port ${port}`);
 });
 
+app.get('/', (req, res) => {
+    res.send('ATMOS Backend Server');
+});
+
 // To Do
 
 // TASK
