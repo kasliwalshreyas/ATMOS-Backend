@@ -15,15 +15,15 @@ const { apiDoc } = require('./utils/docs');
 
 
 const corsOptions = {
-    origin: 'http://localhost:4001',
-    origin: 'http://localhost:4001',
+    origin: process.env.FRONTEND_URL,
+    origin: process.env.FRONTEND_URL,
     credentials: true,            //access-control-allow-credentials:true
     optionSuccessStatus: 200,
 
 }
 
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(apiDoc));
-app.use(morgan('tiny',{ stream: accessLogStream }))
+app.use(morgan('tiny', { stream: accessLogStream }))
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
