@@ -9,7 +9,7 @@ const chatsSchema = new mongoose.Schema({
                 unique: false,
                 ref: "User"
             },
-            receiverid:{
+            receiverid: {
                 type: mongoose.Schema.Types.ObjectId,
                 required: false,
                 unique: false,

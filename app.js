@@ -23,9 +23,10 @@ const parseForm = bodyParser.urlencoded({ extended: false })
 
 const { apiDoc } = require('./utils/docs');
 const corsOptions = {
-    origin: '*',
+    origin: 'http://localhost:4001',
     credentials: true,            //access-control-allow-credentials:true
     optionSuccessStatus: 200,
+
 }
 
 
