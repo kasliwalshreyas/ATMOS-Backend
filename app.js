@@ -23,7 +23,7 @@ const parseForm = bodyParser.urlencoded({ extended: false })
 
 const { apiDoc } = require('./utils/docs');
 const corsOptions = {
-    origin: '*',
+    origin: 'http://localhost:4001',
     credentials: true,            //access-control-allow-credentials:true
     optionSuccessStatus: 200,
 }
@@ -74,11 +74,9 @@ app.use('/section', require('./routes/section-routes'));
 app.use('/task', require('./routes/task-routes'));
 app.use('/note', require('./routes/note-routes'));
 app.use('/chat', require('./routes/chat-routes'));
-
-
-const server = http.createServer(app);
 app.use('/admin', require('./routes/admin-routes'));
 
+const server = http.createServer(app);
 
 const io = new Server(server, {
     pingTimeout: 60000,

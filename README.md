@@ -106,7 +106,19 @@
 - Charts
 
 
+<!-- End Review Requirements -->
 
+## Unit Testing on Core features of frontend and backend
+
+### Frontend
+- Project Overview
+- Project Board
+- Add/Delete Project [Add/Delete Team Member]
+- Add/Delete Task
+- Change Member Access
+
+### Backend
+- Api Testing of core endpoints using Jest and Supertest
 
 
 
