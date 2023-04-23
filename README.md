@@ -44,21 +44,19 @@
 ## Frontend
 - About Us
 - Contact Us
-- Notes
+
 ## Backend
-- Note
 - Contact Us
-
-
 
 # 2. Dushyant Yadav
 ## Frontend
 - Home
 - Project List
 - Create Project
-- TimeLine
+- Notes
 
 ## Backend
+- Notes
 - Home -> getUserInfo, addProjectToFavorite, removeProjectFromFavorite
 - ProjectList -> updateLastUsed
 
@@ -71,6 +69,10 @@
 
 ## Backend
 - Message
+- Morgan Middleware
+- Morgan
+- Swagger -> 2APIs
+- Help in Admin Portal
 
 # 4. Akash Yadav
 
@@ -106,7 +108,19 @@
 - Charts
 
 
+<!-- End Review Requirements -->
 
+## Unit Testing on Core features of frontend and backend
+
+### Frontend
+- Project Overview
+- Project Board
+- Add/Delete Project [Add/Delete Team Member]
+- Add/Delete Task
+- Change Member Access
+
+### Backend
+- Api Testing of core endpoints using Jest and Supertest
 
 
 
