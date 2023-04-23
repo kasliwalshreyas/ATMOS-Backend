@@ -243,6 +243,60 @@ const getProjectDetails = async (req, res) => {
       .populate("projectTaskIdList");
     // console.log(project, "project from project controller -> getProjectDetails");
 
+    let accessLevel = 'no-access';
+    //check user Access level in the project
+    const userId = mongoose.Types.ObjectId(req.user._id);
+
+    if (project.projectOwner.toString() === userId.toString()) {
+      accessLevel = "highAccess";
+    } else if (project.projectHighAccessMembers.map((item) => item._id.toString()).includes(userId.toString())) {
+      accessLevel = "highAccess";
+    } else if (project.projectMediumAccessMembers.map((item) => item._id.toString()).includes(userId.toString())) {
+      accessLevel = "mediumAccess";
+    } else if (project.projectLowAccessMembers.map((item) => item._id.toString()).includes(userId.toString())) {
+      accessLevel = "lowAccess";
+    }
+
+    // console.log(project.projectHighAccessMembers.map((item) => item._id.toString()), "project.projectHighAccessMembers");
+
+    console.log(accessLevel, "accessLevel");
+    //if lowAccess - only send sections and tasks that are assigned to the user
+    if (accessLevel === "lowAccess") {
+      const sectionList = project.projectSectionIdList;
+      const taskList = project.projectTaskIdList;
+      const filteredSectionList = [];
+      const filteredTaskList = [];
+
+      sectionList.map((section) => {
+        const sectionFilteredTaskIdList = [];
+        const sectionFilteredTaskList = [];
+        section.taskIdList.map((task) => {
+          if (task.taskAssigneeList.map((item) => item._id.toString()).includes(userId.toString())) {
+            sectionFilteredTaskIdList.push(task._id);
+            sectionFilteredTaskList.push(task);
+          }
+        });
+        if (sectionFilteredTaskIdList.length > 0) {
+          section.taskIdList = sectionFilteredTaskList;
+          filteredSectionList.push(section);
+        }
+
+        // console.log(sectionFilteredTaskIdList, "sectionFilteredTaskIdList");
+        console.log(sectionFilteredTaskList, "sectionFilteredTaskList");
+        console.log(filteredSectionList, "filteredSectionList");
+        // console.log(project.projectSectionIdList, "project.projectSectionIdList");
+        // console.log(project.projectTaskIdList, "project.projectTaskIdList");
+
+      });
+
+      project.projectSectionIdList = filteredSectionList;
+      project.projectTaskIdList = filteredTaskList;
+
+    }
+
+    // console.log(project, "project from project controller -> getProjectDetails");
+
+
     res.status(200).json({
       success: true,
       message: "Project details fetched successfully",
