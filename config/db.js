@@ -5,6 +5,8 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
 let mongod = null;
 let URI = process.env.MONGO_URI;
 
+// console.log("Database ",URI)
+
 mongoose.set('strictQuery', false);
 const connectDB = async () => {
     try {
@@ -12,6 +14,7 @@ const connectDB = async () => {
         let envNode = (process.env.NODE_ENV || 'development');
         // console.log(URI);
         // console.log(envNode.length);
+        // console.log(envNode)
         if (envNode === 'test ') {
             mongod = await MongoMemoryServer.create();
             // URI = process.env.MONGO_URI_TEST;

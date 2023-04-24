@@ -91,6 +91,59 @@ const getChatsUser = async (req, res) => {
     }
 }
 
+
+const createProjectChat = async(req,res) => {
+  const newChat = new Chat({
+      projectId: req.body.projectId,
+  })
+
+  try {
+      const chat = await Chat.findOne({
+        projectId: { $all: [req.body.projectId] },
+      });
+      console.log("similar found", chat)
+      if(chat === null){
+          const result = await newChat.save();
+          res.status(200).json(result);
+      }
+    } catch (error) {
+      res.status(500).json(error);
+    }
+}
+
+const projectChats = async (req, res) => {
+  try {
+    const chat = await Chat.find({
+      projectId: { $in: [req.params.projectId] },
+    });
+    res.status(200).json(chat);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+
+const projectsChats = async (req, res) => {
+  try {
+    const projectIds =  mongoose.Types.ObjectId(req.body.allProjects);
+    let chats = []
+    projectIds.map(async(projectId)=>{
+      const chat = await Chat.find({
+        projectId: { $in: [projectId] },
+      });
+      chats.push(chat)
+  })
+    res.status(200).json(chats);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+
+
+
+
+
 const sendProjectMessage = async (req,res) => {
     try {
         const projectId = mongoose.Types.ObjectId(req.params.id);
@@ -159,4 +212,7 @@ module.exports = {
     createChat,
     userChats,
     findChat,
+    createProjectChat,
+    projectChats,
+    projectsChats
 };
