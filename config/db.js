@@ -40,6 +40,7 @@ const connectTestDB = async () => {
             URI = await mongod.getUri();
             console.log(URI);
         await mongoose.connect(URI);
+        // comment this line if you want to see the console log
         // if (envNode === 'development') {
         //     console.log("ATMOS Database connected...");
         // }
