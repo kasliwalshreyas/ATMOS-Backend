@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const app = require('../app');
 const request = supertest(app);
 
-const { connectDB, disconnectDB } = require('../config/db');
+const { connectDB, disconnectDB } = require('./db');
 jest.setTimeout(200000);
 
 const userInput = { 
@@ -21,6 +21,10 @@ describe('Section Routes', () => {
     beforeAll(async () => {
         await connectDB();
     });
+
+    // beforeEach((done=>{
+    //     done();
+    // }))
 
     afterAll(async () => {
         await disconnectDB();
