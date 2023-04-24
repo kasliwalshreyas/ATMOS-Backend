@@ -11,20 +11,38 @@ mongoose.set('strictQuery', false);
 const connectDB = async () => {
     try {
         // console.log(process.env.NODE_ENV);
-        let envNode = (process.env.NODE_ENV || 'development');
+        // let envNode = (process.env.NODE_ENV || 'development');
         // console.log(URI);
         // console.log(envNode.length);
         // console.log(envNode)
-        if (envNode === 'test ') {
+        // if (envNode === 'test ') {
+        //     // mongod = await MongoMemoryServer.create();
+        //     // URI = process.env.MONGO_URI_TEST;
+        //     // URI = await mongod.getUri();
+        //     // console.log(URI);
+        // }
+        await mongoose.connect(URI);
+        // if (envNode === 'development') {
+            console.log("ATMOS Database connected...");
+        // }
+    }   
+    catch (err) {
+        console.error(err.message);
+        process.exit(1);
+    }
+}
+
+const connectTestDB = async () => {
+    try {
+    
             mongod = await MongoMemoryServer.create();
             // URI = process.env.MONGO_URI_TEST;
             URI = await mongod.getUri();
             console.log(URI);
-        }
         await mongoose.connect(URI);
-        if (envNode === 'development') {
-            console.log("ATMOS Database connected...");
-        }
+        // if (envNode === 'development') {
+        //     console.log("ATMOS Database connected...");
+        // }
     }   
     catch (err) {
         console.error(err.message);
@@ -47,4 +65,4 @@ const disconnectDB = async () => {
     }
 }
 
-module.exports = { connectDB, disconnectDB };
+module.exports = { connectDB, connectTestDB, disconnectDB };

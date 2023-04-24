@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const app = require('../app');
 const request = supertest(app);
 
-const { connectDB, disconnectDB } = require('../config/db');
+const { connectDB, connectTestDB, disconnectDB } = require('../config/db');
 // const { describe } = require('yargs');
 jest.setTimeout(200000);
 
@@ -28,7 +28,7 @@ const projectInput = {
 
 describe('User Routes', () => {
     beforeAll(async () => {
-        await connectDB();
+        await connectTestDB();
     });
 
     // beforeEach((done=>{
