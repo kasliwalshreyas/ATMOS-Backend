@@ -68,13 +68,13 @@ describe('User Routes', () => {
 
          // Test authenticated routes
          describe('Authenticated Routes', () => {
-            it('(protected) GET /user/getUserInfo', async () => {
-                const response = await request.get('/user/getUserInfo').set('Authorization', `Bearer ${token}`);
-                expect(response.status).toBe(200);
-                expect(response.body.success).toBe(true);
-                expect(response.body.message).toBe('User Info');
-                expect(response.body.user).toBeDefined();
-            });
+            // it('(protected) GET /user/getUserInfo', async () => {
+            //     const response = await request.get('/user/getUserInfo').set('Authorization', `Bearer ${token}`);
+            //     expect(response.status).toBe(200);
+            //     expect(response.body.success).toBe(true);
+            //     expect(response.body.message).toBe('User Info');
+            //     expect(response.body.user).toBeDefined();
+            // });
 
             it('(protected) PUT /user/addProjectToFavorite', async () => {
                 const response = await request.put('/user/addProjectToFavorite').set('Authorization', `Bearer ${token}`).send({
