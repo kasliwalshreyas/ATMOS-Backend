@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const { registerValidation, loginValidation } = require('../config/validation');
 const { default: mongoose } = require('mongoose');
 const transporter = require('../config/transporter');
-
+require("../services/redis")
 const sharp = require("sharp");
 const { populate } = require('../models/User');
 
@@ -97,7 +97,8 @@ const getUserInfo = async (req, res) => {
                 },
             ]
         })
-            .populate('taskAssignedIdList').populate('favProjectIdList').select({ password: 0 });
+            .populate('taskAssignedIdList').populate('favProjectIdList').select({ password: 0 })
+            .cache();
 
         res.status(200).json({
             success: true,

@@ -4,6 +4,11 @@ const ChatSchema = new mongoose.Schema({
     members: {
         type: Array,
     },
+    projectId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: false,
+        ref: 'Project'
+    }
 },{
     timestamps: true,
 });

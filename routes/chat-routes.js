@@ -1,19 +1,22 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../middlewares/auth');
-const { getChatsProject, getChatsUser, sendProjectMessage , createChat , userChats,projectChats , findChat} = require('../controllers/chat-controller');
+const { getChatsProject, getChatsUser, sendProjectMessage , createChat , userChats,projectChats , findChat, createProjectChat} = require('../controllers/chat-controller');
 router.use(auth);
 
 
 router.post('/send', createChat);
 router.get('/:userId', userChats);
-// router.get('/:projectId', projectChats);
 router.get('/find/:firstId/:secondId', findChat);
+// router.get('/:projectId', projectChats);
+
+router.post('/project/send', createProjectChat);
+router.get('/project/:projectId', projectChats);
 
 // router.post('/updateChat', updateChat);
 // router.delete('/deleteChat/:id', deleteChat);
-router.get('/getChats/project/:id', getChatsProject);
 router.get('/getChats/user/:id', getChatsUser);
+router.get('/getChats/project/:id', getChatsProject);
 router.post('/sendMessage/Project/:id', sendProjectMessage);
 // router.post('/sendMessage/user/:id', sendPersonalMessage);
 // router.get('/getCollaborators/', getCollaborators);

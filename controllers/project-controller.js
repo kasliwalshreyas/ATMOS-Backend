@@ -4,7 +4,7 @@ const Section = require("../models/Section");
 const Task = require("../models/Task");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
-
+require("../services/redis")
 const create = async (req, res) => {
   try {
     // console.log(req.body, "req.body from project controller -> create");
@@ -197,7 +197,7 @@ const getUserProjects = async (req, res) => {
     //populate projects from Projects collection
     const projects = await Project.find({ _id: { $in: projectList } }).select(
       "-projectSectionIdList -projectTaskIdList -projectHighAccessMembers -projectMediumAccessMembers -projectLowAccessMembers -projectMission -projectVision -projectDescription -projectStatement -projectGuidelines -projectStartDate -projectEndDate"
-    );
+    ).cache();
 
     // .populate("projectOwner")
     // .populate("projectHighAccessMembers")
