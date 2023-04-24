@@ -1,127 +1,56 @@
-# ATMOS-Backend
+### Live Website
 
-- This is the backend of ATMOS. ATMOS is a project management tool.
+[https://master--stately-raindrop-e70d37.netlify.app/](https://master--stately-raindrop-e70d37.netlify.app/)
 
-# Installation
+## Frontend
+
+### Installation and Setup Instructions
+- Clone the repo `git clone https://github.com/kasliwalshreyas/ATMOS-react.git`
+- Install the dependencies using `npm install`
+- To start the app, run `npm start` in the root directory.
+- App will be running on port 3000 by default.
+
+### Setup Environment
+Add the following variable in .env file
+```
+REACT_APP_BACKEND_URL=http://localhost:4000
+REACT_APP_SOCKET_URL=http://localhost:8800
+```
+
+
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+
+
+## Backend 
+
+## Main Server
+
+### Installation and Setup Instructions
+
 - Clone the repository using `git clone https://github.com/kasliwalshreyas/ATMOS-Backend.git`
 - Install the dependencies using `npm install`
-
-# Usage
 - To start the server, run `npm start` in the root directory.
 - Server will be running on port 4000 by default.
 
-# Database
-- MongoDB is used as the database.
-- Same MongoDB cluster is used which was used in the previous ATMOS NodeJS backend.
-- But the Database is different. It is `ATMOS` and not `ATMOS-sample-database`.
-- The database is hosted on MongoDB Atlas.
-
-# Pages
-
-1. HomePage
-2. Login
-3. Signup
-4. Contact Us
-5. About Us
-6. Dashboard
-    - Home
-    - Project List
-    - Create Project Page
-    - Project
-        - Overview
-        - Board
-        - Charts
-        - TimeLine
-    - Message
-    - Notes
-    - Profile Page
-7. Admin Portal
+### Setup Environment
+Add the following variable in .env file
+```
+PORT=4000
+MONGO_URI= -------
+TOKEN_SECRET= -------
+FRONTEND_URL=http://localhost:3000
+```
 
 
-# Contribution
+## Socket Server
 
-1. Avinash Saroj
-## Frontend
-- About Us
-- Contact Us
-
-## Backend
-- Contact Us
-
-# 2. Dushyant Yadav
-## Frontend
-- Home
-- Project List
-- Create Project
-- Notes
-
-## Backend
-- Notes
-- Home -> getUserInfo, addProjectToFavorite, removeProjectFromFavorite
-- ProjectList -> updateLastUsed
+- Clone the repository using `git clone https://github.com/kasliwalshreyas/wbdFinal.git`
+- Install the dependencies using `npm install`
+- To start the server, run `npm start` in the root directory.
+- Server will be running on port 8800 by default.
 
 
-# 3. Naman Bhatia
+## Testing
 
-## Frontend
-- HomePage
-- Message
-
-## Backend
-- Message
-- Morgan Middleware
-- Morgan
-- Swagger -> 2APIs
-- Help in Admin Portal
-
-# 4. Akash Yadav
-
-## Frontend
-- Login
-- Signup
-- Profile Page [Multer Middleware]
-- Admin portal
-
-
-## Backend
-- Login
-- Signup
-- Profile page [Multer Middleware]
-- Project Access Change
-- Project Remove Team Member
-- Admin Portal
-
-
-# 5. Shreyas Kasliwal
-
-# Frontend
-- Dashboard
-    - Project
-        - Overview
-        - Board
-        - Charts
-
-# Backend
-- Models
-- Overview
-- Board
-- Charts
-
-
-<!-- End Review Requirements -->
-
-## Unit Testing on Core features of frontend and backend
-
-### Frontend
-- Project Overview
-- Project Board
-- Add/Delete Project [Add/Delete Team Member]
-- Add/Delete Task
-- Change Member Access
-
-### Backend
-- Api Testing of core endpoints using Jest and Supertest
-
-
-
-
+- To test the server, run `npm test` in the root directory.
+- To test the app, run `npm test` in the root directory.
