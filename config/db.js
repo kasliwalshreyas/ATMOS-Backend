@@ -8,12 +8,20 @@ let URI = process.env.MONGO_URI;
 mongoose.set('strictQuery', false);
 const connectDB = async () => {
     try {
-        if (process.env.NODE_ENV === 'test') {
+        // console.log(process.env.NODE_ENV);
+        let envNode = (process.env.NODE_ENV || 'development');
+        // console.log(URI);
+        // console.log(envNode.length);
+        if (envNode === 'test ') {
             mongod = await MongoMemoryServer.create();
-            URI = mongod.getUri();
+            // URI = process.env.MONGO_URI_TEST;
+            URI = await mongod.getUri();
+            // console.log(URI);
         }
         await mongoose.connect(URI);
-        console.log("ATMOS Database connected...");
+        if (envNode === 'development') {
+            console.log("ATMOS Database connected...");
+        }
     }   
     catch (err) {
         console.error(err.message);
@@ -23,6 +31,8 @@ const connectDB = async () => {
 
 const disconnectDB = async () => {
    try {
+        // drop database
+    //    await mongoose.connection.db.dropDatabase();
        await mongoose.connection.close();
         if (mongod){
             await mongod.stop();

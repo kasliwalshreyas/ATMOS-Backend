@@ -8,9 +8,7 @@ const app = express();
 const cors = require("cors");
 const swaggerUI = require('swagger-ui-express');
 var path = require('path')
-const bodyParser = require('body-parser')
 var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
-const parseForm = bodyParser.urlencoded({ extended: false })
 const { apiDoc } = require('./utils/docs');
 
 
@@ -27,7 +25,7 @@ app.use(morgan('tiny', { stream: accessLogStream }))
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-connectDB();
+// connectDB();
 app.use(cors(corsOptions)) // Use this after the variable declaration
 
 app.use('/user', require('./routes/user-routes'));
@@ -40,15 +38,11 @@ app.use('/admin', require('./routes/admin-routes'));
 
 
 
-const server = app.listen(port, () => {
-    console.log(`ATMOS Backend server started on port ${port}`);
-});
+module.exports = app;
 
-module.exports = { app, server };
-
-app.get('/', (req, res) => {
-    res.send('ATMOS Backend Server');
-});
+// app.get('/', (req, res) => {
+//     res.send('ATMOS Backend Server');
+// });
 
 // To Do
 

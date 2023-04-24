@@ -1,5 +1,5 @@
 const supertest = require('supertest');
-const { app, server } = require('../app');
+const app = require('../app');
 const request = supertest(app);
 const { connectDB, disconnectDB } = require('../config/db');
 
@@ -12,7 +12,7 @@ describe('Admin Routes', () => {
 
     afterAll(async () => {
         await disconnectDB();
-        server.close();
+        // server.close();
     });
 
     describe('GET /admin/users', () => {

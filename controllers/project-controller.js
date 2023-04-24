@@ -123,7 +123,7 @@ const deleteProject = async (req, res) => {
       }
     }
 
-    console.log(project, "project from project controller -> deleteProject");
+    // console.log(project, "project from project controller -> deleteProject");
 
     res.status(200).json({
       success: true,
@@ -230,7 +230,7 @@ const getUserProjects = async (req, res) => {
 const getProjectDetails = async (req, res) => {
   try {
     const projectId = mongoose.Types.ObjectId(req.params.id);
-    console.log(projectId);
+    // console.log(projectId);
     const project = await Project.findById(projectId)
       .populate("projectOwner")
       .populate("projectHighAccessMembers")
@@ -327,7 +327,7 @@ const transferOwnership = async (req, res) => {
     const newOwnerId = mongoose.Types.ObjectId(req.body.newOwner);
 
     //transfer ownership
-    console.log("transfer ownership", projectId, userId, newOwnerId);
+    // console.log("transfer ownership", projectId, userId, newOwnerId);
 
     const project = await Project.findByIdAndUpdate(
       projectId,
@@ -448,6 +448,7 @@ const changeUserAccessLevel = async (req, res) => {
 
     }
     else {
+      console.log("You don't have high access to this project");
       res.status(500).json({
         success: false,
         message: "You don't have high access to this project",
