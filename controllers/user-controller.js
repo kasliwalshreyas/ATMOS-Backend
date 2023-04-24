@@ -50,6 +50,7 @@ const login = async (req, res) => {
         // Validate the data before we make a user
         console.log(req.body);
         const error = loginValidation(req.body);
+        console.log(error);
         if (error) return res.status(500).json({ success: false, message: error });
 
         // Check if the email exists
@@ -70,6 +71,7 @@ const login = async (req, res) => {
         });
     } catch (err) {
         // console.log(err, "Error from user controller -> login");
+        console.log(err);
         res.status(500).send({
             success: false,
             message: err

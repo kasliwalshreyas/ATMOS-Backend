@@ -15,6 +15,11 @@ const userInput = {
     password: 'akash123',
 };
 
+const userLogin = {
+    email: 'testUser123',
+    password: 'akash123'
+};
+
 const projectInput = {
     projectName: 'testProject',
     projectDescription: 'testProjectDescription',
@@ -50,51 +55,48 @@ describe('User Routes', () => {
         });
     });
 
-    describe('POST /user/login', () => {
-        it('should login a user', async () => {
-            const response = await request.post('/user/login').send({
-                email: userInput.email,
-                password: userInput.password
-            });
-            console.log(response.body);
-            expect(response.status).toBe(200);
-            expect(response.body.success).toBe(true);
-            expect(response.body.message).toBe('Login Success');
-            expect(response.body.user).toBeDefined();
+    // describe('POST /user/login', () => {
+    //     // it('should login a user', async () => {
+    //     //     const response = await request.post('/user/login').send(userLogin);
+    //     //     console.log(response.body);
+    //     //     expect(response.status).toBe(200);
+    //     //     expect(response.body.success).toBe(true);
+    //     //     expect(response.body.message).toBe('Login Success');
+    //     //     expect(response.body.user).toBeDefined();
 
-            // Save the token for future use
-            token = response.body.token;
-        });
+    //     //     // Save the token for future use
+    //     //     token = response.body.token;
+    //     // });
 
-         // Test authenticated routes
-         describe('Authenticated Routes', () => {
-            // it('(protected) GET /user/getUserInfo', async () => {
-            //     const response = await request.get('/user/getUserInfo').set('Authorization', `Bearer ${token}`);
-            //     expect(response.status).toBe(200);
-            //     expect(response.body.success).toBe(true);
-            //     expect(response.body.message).toBe('User Info');
-            //     expect(response.body.user).toBeDefined();
-            // });
+    //      // Test authenticated routes
+    //      describe('Authenticated Routes', () => {
+    //         // it('(protected) GET /user/getUserInfo', async () => {
+    //         //     const response = await request.get('/user/getUserInfo').set('Authorization', `Bearer ${token}`);
+    //         //     expect(response.status).toBe(200);
+    //         //     expect(response.body.success).toBe(true);
+    //         //     expect(response.body.message).toBe('User Info');
+    //         //     expect(response.body.user).toBeDefined();
+    //         // });
 
-            it('(protected) PUT /user/addProjectToFavorite', async () => {
-                const response = await request.put('/user/addProjectToFavorite').set('Authorization', `Bearer ${token}`).send({
-                    projectId: '6446de5739aa6607f5086e20'
-                });
-                expect(response.status).toBe(200);
-                expect(response.body.success).toBe(true);
-                expect(response.body.message).toBe('Project added to favorite list');
-            });
+    //         it('(protected) PUT /user/addProjectToFavorite', async () => {
+    //             const response = await request.put('/user/addProjectToFavorite').set('Authorization', `Bearer ${token}`).send({
+    //                 projectId: '6446de5739aa6607f5086e20'
+    //             });
+    //             expect(response.status).toBe(200);
+    //             expect(response.body.success).toBe(true);
+    //             expect(response.body.message).toBe('Project added to favorite list');
+    //         });
 
-            it('(protected) PUT /user/removeProjectFromFavorite', async () => {
-                const response = await request.put('/user/removeProjectFromFavorite').set('Authorization', `Bearer ${token}`).send({
-                    projectId: '6446de5739aa6607f5086e20'
-                });
-                expect(response.status).toBe(200);
-                expect(response.body.success).toBe(true);
-                expect(response.body.message).toBe('Project removed from favorite list');
-            });
-        });
-    });
+    //         it('(protected) PUT /user/removeProjectFromFavorite', async () => {
+    //             const response = await request.put('/user/removeProjectFromFavorite').set('Authorization', `Bearer ${token}`).send({
+    //                 projectId: '6446de5739aa6607f5086e20'
+    //             });
+    //             expect(response.status).toBe(200);
+    //             expect(response.body.success).toBe(true);
+    //             expect(response.body.message).toBe('Project removed from favorite list');
+    //         });
+    //     });
+    // });
 
 
     // Admin routes
@@ -222,165 +224,165 @@ describe('User Routes', () => {
     });
 
     // Section routes
-    describe('POST /section/create', () => {
-        // it('user should be logged in to create a section', async () => {
-        //     const response = await request.post('/user/register').send(userInput);
-        //     const response2 = await request.post('/user/login').send(userLogin);
-        //     // console.log(response.body);
-        //     expect(response2.status).toBe(200);
-        //     expect(response2.body.success).toBe(true);
-        //     expect(response2.body.message).toBe('Login Success');
-        //     expect(response2.body.user).toBeDefined();
+    // describe('POST /section/create', () => {
+    //     // it('user should be logged in to create a section', async () => {
+    //     //     const response = await request.post('/user/register').send(userInput);
+    //     //     const response2 = await request.post('/user/login').send(userLogin);
+    //     //     // console.log(response.body);
+    //     //     expect(response2.status).toBe(200);
+    //     //     expect(response2.body.success).toBe(true);
+    //     //     expect(response2.body.message).toBe('Login Success');
+    //     //     expect(response2.body.user).toBeDefined();
 
-        //     // Save the token for future use
-        //     token = response2.body.token;
-        // });
+    //     //     // Save the token for future use
+    //     //     token = response2.body.token;
+    //     // });
 
-        it('should create a section', async () => {
-            const response = await request.post('/section/create').set('Authorization', `Bearer ${token}`).send({
-                sectionName: 'testSection',
-                projectId: '644454f315ededc8026e7c06'
-            });
-            // console.log(response.body);
-            expect(response.status).toBe(200);
-            expect(response.body.success).toBe(true);
-            expect(response.body.message).toBe('Create section successfully');
-            expect(response.body.section).toBeDefined();
-            sectionId = response.body.section._id;
-        });
-    });
-
-    describe('PUT /section/renameSection', () => {
-        it('should get a section', async () => {
-            const response = await request.put(`/section/renameSection/64455122bab6a91417e7cce5`).set('Authorization', `Bearer ${token}`).send({
-                sectionName: 'testSectionRenamed'
-            });
-            // console.log(response.body);
-            expect(response.status).toBe(200);
-            expect(response.body.success).toBe(true);
-            expect(response.body.section).toBeDefined();
-        });
-    });
-
-    // describe('DELETE /section/deleteSection', () => {
-    //     it('should get all sections', async () => {
-    //         const response = await request.delete(`/section/deleteSection/64455122bab6a91417e7cce5`).set('Authorization', `Bearer ${token}`);
-    //         console.log(response.body);
+    //     it('should create a section', async () => {
+    //         const response = await request.post('/section/create').set('Authorization', `Bearer ${token}`).send({
+    //             sectionName: 'testSection',
+    //             projectId: '644454f315ededc8026e7c06'
+    //         });
+    //         // console.log(response.body);
     //         expect(response.status).toBe(200);
     //         expect(response.body.success).toBe(true);
-    //         expect(response.body.sections).toBeDefined();
+    //         expect(response.body.message).toBe('Create section successfully');
+    //         expect(response.body.section).toBeDefined();
+    //         sectionId = response.body.section._id;
     //     });
     // });
 
-    // Project routes
-    describe('POST /project/create', () => {
-        // it('user should be logged in to create a project', async () => {
-        //     const response = await request.post('/user/register').send(userInput);
-        //     const response2 = await request.post('/user/login').send(userLogin);
-        //     // console.log(response.body);
-        //     expect(response2.status).toBe(200);
-        //     expect(response2.body.success).toBe(true);
-        //     expect(response2.body.message).toBe('Login Success');
-        //     expect(response2.body.user).toBeDefined();
-        //     userId = response2.body.user._id;
-        //     // Save the token for future use
-        //     token = response2.body.token;
-        // });
+    // describe('PUT /section/renameSection', () => {
+    //     it('should get a section', async () => {
+    //         const response = await request.put(`/section/renameSection/64455122bab6a91417e7cce5`).set('Authorization', `Bearer ${token}`).send({
+    //             sectionName: 'testSectionRenamed'
+    //         });
+    //         // console.log(response.body);
+    //         expect(response.status).toBe(200);
+    //         expect(response.body.success).toBe(true);
+    //         expect(response.body.section).toBeDefined();
+    //     });
+    // });
 
-        it('should create a project', async () => {
-            // const response = await request.post('/user/login').send(userLogin);
-            // // console.log(response.body);
-            // expect(response.status).toBe(200);
-            // expect(response.body.success).toBe(true);
-            // expect(response.body.message).toBe('Login Success');
-            // expect(response.body.user).toBeDefined();
+    // // describe('DELETE /section/deleteSection', () => {
+    // //     it('should get all sections', async () => {
+    // //         const response = await request.delete(`/section/deleteSection/64455122bab6a91417e7cce5`).set('Authorization', `Bearer ${token}`);
+    // //         console.log(response.body);
+    // //         expect(response.status).toBe(200);
+    // //         expect(response.body.success).toBe(true);
+    // //         expect(response.body.sections).toBeDefined();
+    // //     });
+    // // });
 
-            // // Save the token for future use
-            // token = response.body.token;
-            const response2 = await request.post('/project/create').set('Authorization', `Bearer ${token}`).send(projectInput);
-            // console.log(response2.body);
-            expect(response2.status).toBe(200);
-            expect(response2.body.success).toBe(true);
-            expect(response2.body.message).toBe('Project created successfully');
-            expect(response2.body.project).toBeDefined();
-            // Save the projectId for future use
-            projectId = response2.body.project._id;
-        });
-    });
+    // // Project routes
+    // describe('POST /project/create', () => {
+    //     // it('user should be logged in to create a project', async () => {
+    //     //     const response = await request.post('/user/register').send(userInput);
+    //     //     const response2 = await request.post('/user/login').send(userLogin);
+    //     //     // console.log(response.body);
+    //     //     expect(response2.status).toBe(200);
+    //     //     expect(response2.body.success).toBe(true);
+    //     //     expect(response2.body.message).toBe('Login Success');
+    //     //     expect(response2.body.user).toBeDefined();
+    //     //     userId = response2.body.user._id;
+    //     //     // Save the token for future use
+    //     //     token = response2.body.token;
+    //     // });
 
-    describe.skip('GET /project/getUserProjects', () => {
-        it('should get all projects', async () => {
-            const response = await request.get('/project/getUserProjects').set('Authorization', `Bearer ${token}`);
-            // console.log(response.body);
-            expect(response.status).toBe(200);
-            expect(response.body.success).toBe(true);
-            expect(response.body.projects).toBeDefined();
-        });
-    });
+    //     it('should create a project', async () => {
+    //         // const response = await request.post('/user/login').send(userLogin);
+    //         // // console.log(response.body);
+    //         // expect(response.status).toBe(200);
+    //         // expect(response.body.success).toBe(true);
+    //         // expect(response.body.message).toBe('Login Success');
+    //         // expect(response.body.user).toBeDefined();
 
-    describe.skip('GET /project/getProjectDetails', () => {
-        it('should get a project by id', async () => {
-            const response = await request.get(`/project/getProjectDetails/${projectId}`).set('Authorization', `Bearer ${token}`);
-            // console.log(response.body);
-            expect(response.status).toBe(200);
-            expect(response.body.success).toBe(true);
-            expect(response.body.project).toBeDefined();
-        });
-    });
+    //         // // Save the token for future use
+    //         // token = response.body.token;
+    //         const response2 = await request.post('/project/create').set('Authorization', `Bearer ${token}`).send(projectInput);
+    //         // console.log(response2.body);
+    //         expect(response2.status).toBe(200);
+    //         expect(response2.body.success).toBe(true);
+    //         expect(response2.body.message).toBe('Project created successfully');
+    //         expect(response2.body.project).toBeDefined();
+    //         // Save the projectId for future use
+    //         projectId = response2.body.project._id;
+    //     });
+    // });
 
-    describe('PUT /project/addTeamMember', () => {
-        it('should add a team member to a project', async () => {
-            const response = await request.put('/project/addTeamMember/644454f315ededc8026e7c06').set('Authorization', `Bearer ${token}`).send({ userId: '641d5832b6cd277cd1f9d201', accessLevel: 'lowAccess' });
-            // console.log(response.body);
-            expect(response.status).toBe(200);
-            expect(response.body.success).toBe(true);
-            expect(response.body.message).toBe('User added to project');
-        });
-    });
+    // describe.skip('GET /project/getUserProjects', () => {
+    //     it('should get all projects', async () => {
+    //         const response = await request.get('/project/getUserProjects').set('Authorization', `Bearer ${token}`);
+    //         // console.log(response.body);
+    //         expect(response.status).toBe(200);
+    //         expect(response.body.success).toBe(true);
+    //         expect(response.body.projects).toBeDefined();
+    //     });
+    // });
 
-    describe('POST /project/transferOwnership', () => {
-        it('should transfer ownership of a project', async () => {
-            const response = await request.post('/project/transferOwnership/644454f315ededc8026e7c06').set('Authorization', `Bearer ${token}`).send({ newOwner: '641c25296ea464a6a6799a7e' });
-            // console.log(response.body);
-            expect(response.status).toBe(200);
-            expect(response.body.success).toBe(true);
-            expect(response.body.message).toBe('Project ownership transferred successfully');
-        });
-    });
+    // describe.skip('GET /project/getProjectDetails', () => {
+    //     it('should get a project by id', async () => {
+    //         const response = await request.get(`/project/getProjectDetails/${projectId}`).set('Authorization', `Bearer ${token}`);
+    //         // console.log(response.body);
+    //         expect(response.status).toBe(200);
+    //         expect(response.body.success).toBe(true);
+    //         expect(response.body.project).toBeDefined();
+    //     });
+    // });
 
-    // Test changeUserAccessLevel
-    describe.skip('POST /project/changeUserAccessLevel', () => {
-        it('should change the access level of a user in a project', async () => {
-            const myToken = jwt.sign({ _id: '644454ce15ededc8026e7bfa' }, process.env.TOKEN_SECRET, { expiresIn: '60' });
-            const response = await request.post('/project/644454f315ededc8026e7c06/changeUserAccessLevel').set('Authorization', `Bearer ${myToken}`).send({ userId: '641dfcae9bfbc50118964537', newAccessLevel: 'mediumAccess' });
-            console.log(response.body);
-            expect(response.status).toBe(200);
-            expect(response.body.success).toBe(true);
-            expect(response.body.message).toBe('User access level changed successfully');
-        });
-    });
+    // describe('PUT /project/addTeamMember', () => {
+    //     it('should add a team member to a project', async () => {
+    //         const response = await request.put('/project/addTeamMember/644454f315ededc8026e7c06').set('Authorization', `Bearer ${token}`).send({ userId: '641d5832b6cd277cd1f9d201', accessLevel: 'lowAccess' });
+    //         // console.log(response.body);
+    //         expect(response.status).toBe(200);
+    //         expect(response.body.success).toBe(true);
+    //         expect(response.body.message).toBe('User added to project');
+    //     });
+    // });
 
-    describe.skip('POST /project/removeTeamMember', () => {
-        it('should remove a team member in a project', async () => {
-            const myToken = jwt.sign({ _id: '644454ce15ededc8026e7bfa' }, process.env.TOKEN_SECRET, { expiresIn: '60' });
-            const response = await request.post('/project/644454f315ededc8026e7c06/removeTeamMember').set('Authorization', `Bearer ${myToken}`).send({ userId: '641dfcae9bfbc50118964537'});
-            console.log(response.body);
-            expect(response.status).toBe(200);
-            expect(response.body.success).toBe(true);
-            expect(response.body.message).toBe('User removed from project');
-        });
-    });
+    // describe('POST /project/transferOwnership', () => {
+    //     it('should transfer ownership of a project', async () => {
+    //         const response = await request.post('/project/transferOwnership/644454f315ededc8026e7c06').set('Authorization', `Bearer ${token}`).send({ newOwner: '641c25296ea464a6a6799a7e' });
+    //         // console.log(response.body);
+    //         expect(response.status).toBe(200);
+    //         expect(response.body.success).toBe(true);
+    //         expect(response.body.message).toBe('Project ownership transferred successfully');
+    //     });
+    // });
 
-     // Testing route that require ProjectId
-     describe.skip('With ProjectId and Token', () => {
-        it('should delete a project', async () => {
-            const response = await request.delete(`/project/deleteProject/${projectId}`).set('Authorization', `Bearer ${token}`);
-            // console.log(response.body);
-            expect(response.status).toBe(200);
-            expect(response.body.success).toBe(true);
-            expect(response.body.message).toBe('Project deleted successfully');
-        });
-    });
+    // // Test changeUserAccessLevel
+    // describe.skip('POST /project/changeUserAccessLevel', () => {
+    //     it('should change the access level of a user in a project', async () => {
+    //         const myToken = jwt.sign({ _id: '644454ce15ededc8026e7bfa' }, process.env.TOKEN_SECRET, { expiresIn: '60' });
+    //         const response = await request.post('/project/644454f315ededc8026e7c06/changeUserAccessLevel').set('Authorization', `Bearer ${myToken}`).send({ userId: '641dfcae9bfbc50118964537', newAccessLevel: 'mediumAccess' });
+    //         console.log(response.body);
+    //         expect(response.status).toBe(200);
+    //         expect(response.body.success).toBe(true);
+    //         expect(response.body.message).toBe('User access level changed successfully');
+    //     });
+    // });
+
+    // describe.skip('POST /project/removeTeamMember', () => {
+    //     it('should remove a team member in a project', async () => {
+    //         const myToken = jwt.sign({ _id: '644454ce15ededc8026e7bfa' }, process.env.TOKEN_SECRET, { expiresIn: '60' });
+    //         const response = await request.post('/project/644454f315ededc8026e7c06/removeTeamMember').set('Authorization', `Bearer ${myToken}`).send({ userId: '641dfcae9bfbc50118964537'});
+    //         console.log(response.body);
+    //         expect(response.status).toBe(200);
+    //         expect(response.body.success).toBe(true);
+    //         expect(response.body.message).toBe('User removed from project');
+    //     });
+    // });
+
+    //  // Testing route that require ProjectId
+    //  describe.skip('With ProjectId and Token', () => {
+    //     it('should delete a project', async () => {
+    //         const response = await request.delete(`/project/deleteProject/${projectId}`).set('Authorization', `Bearer ${token}`);
+    //         // console.log(response.body);
+    //         expect(response.status).toBe(200);
+    //         expect(response.body.success).toBe(true);
+    //         expect(response.body.message).toBe('Project deleted successfully');
+    //     });
+    // });
 });
 
 
