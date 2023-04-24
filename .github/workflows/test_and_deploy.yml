@@ -5,7 +5,7 @@ name: Test and Deploy
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "main" ]
 
 jobs:
 
@@ -31,7 +31,7 @@ jobs:
       - name: Create .env file
         uses: SpicyPizza/create-envfile@v1
         with:
-          envkey_TEST_DB_URL: ${{secrets.TEST_DB_URL}}
+          envkey_MONGO_URL: ${{secrets.MONGO_URI}}
   
       - name: NPM install, build and test
         run: |
