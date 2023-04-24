@@ -10,8 +10,8 @@ jest.setTimeout(200000);
 const userId = new mongoose.Types.ObjectId().toString();
 
 const userInput = { 
-    userName: 'testUser123',
-    email: 'test123@atmos.in',
+    userName: 'test123user',
+    email: 'testUser123@atmos.in',
     password: 'akash123',
 };
 
@@ -53,8 +53,8 @@ describe('User Routes', () => {
     describe('POST /user/login', () => {
         it('should login a user', async () => {
             const response = await request.post('/user/login').send({
-                email: 'test123@atmos.in',
-                password: 'akash123'
+                email: userInput.email,
+                password: userInput.password
             });
             // console.log(response.body);
             expect(response.status).toBe(200);
