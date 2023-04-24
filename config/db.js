@@ -14,7 +14,7 @@ const connectDB = async () => {
         }
         await mongoose.connect(URI);
         console.log("ATMOS Database connected...");
-    }   
+    }
     catch (err) {
         console.error(err.message);
         process.exit(1);
@@ -22,12 +22,12 @@ const connectDB = async () => {
 }
 
 const disconnectDB = async () => {
-   try {
-       await mongoose.connection.close();
-        if (mongod){
+    try {
+        await mongoose.connection.close();
+        if (mongod) {
             await mongod.stop();
         }
-   }
+    }
     catch (err) {
         console.error(err.message);
         process.exit(1);
