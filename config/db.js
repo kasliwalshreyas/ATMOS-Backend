@@ -37,7 +37,7 @@ const disconnectDB = async () => {
         if (mongod){
             await mongod.stop();
         }
-   }
+    }
     catch (err) {
         console.error(err.message);
         process.exit(1);

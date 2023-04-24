@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const port = process.env.PORT || 4000;
-const {connectDB} = require('./config/db');
+const { connectDB } = require('./config/db');
 const morgan = require('morgan');
 const fs = require('fs')
 const app = express();
@@ -13,11 +13,8 @@ const { apiDoc } = require('./utils/docs');
 
 
 const corsOptions = {
-    origin: process.env.FRONTEND_URL,
-    origin: process.env.FRONTEND_URL,
-    credentials: true,            //access-control-allow-credentials:true
-    optionSuccessStatus: 200,
-
+    origin: '*',
+    credentials: false,            //access-control-allow-credentials:true
 }
 
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(apiDoc));
@@ -33,8 +30,9 @@ app.use('/project', require('./routes/project-routes'));
 app.use('/section', require('./routes/section-routes'));
 app.use('/task', require('./routes/task-routes'));
 app.use('/note', require('./routes/note-routes'));
-app.use('/chat', require('./routes/chat-routes'));  
+app.use('/chat', require('./routes/chat-routes'));
 app.use('/admin', require('./routes/admin-routes'));
+app.use('/message', require('./routes/message-routes'));
 
 
 
