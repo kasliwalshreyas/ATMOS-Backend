@@ -47,6 +47,7 @@ const register = async (req, res) => {
 const login = async (req, res) => {
     try {
         // Validate the data before we make a user
+        // console.log(req.body);
         const error = loginValidation(req.body);
         if (error) return res.status(500).json({ success: false, message: error });
 
@@ -60,7 +61,7 @@ const login = async (req, res) => {
 
         // Create and assign a token
         const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, { expiresIn: '8h' });
-        res.header('Authorization', token).send({
+        res.status(200).header('Authorization', token).send({
             success: true,
             message: "Login Success",
             token: token,
