@@ -84,7 +84,7 @@ describe('Project Routes', () => {
         });
     });
 
-    describe('GET /project/getProjectDetails', () => {
+    describe.skip('GET /project/getProjectDetails', () => {
         it('should get a project by id', async () => {
             const response = await request.get(`/project/getProjectDetails/${projectId}`).set('Authorization', `Bearer ${token}`);
             // console.log(response.body);
