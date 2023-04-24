@@ -123,7 +123,21 @@ const projectChats = async (req, res) => {
 };
 
 
-
+const projectsChats = async (req, res) => {
+  try {
+    const projectIds =  mongoose.Types.ObjectId(req.body.allProjects);
+    let chats = []
+    projectIds.map(async(projectId)=>{
+      const chat = await Chat.find({
+        projectId: { $in: [projectId] },
+      });
+      chats.push(chat)
+  })
+    res.status(200).json(chats);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
 
 
 
@@ -199,5 +213,6 @@ module.exports = {
     userChats,
     findChat,
     createProjectChat,
-    projectChats
+    projectChats,
+    projectsChats
 };

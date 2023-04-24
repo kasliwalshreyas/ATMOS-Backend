@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { registerValidation, loginValidation } = require('../config/validation');
 const { default: mongoose } = require('mongoose');
+const {clearHash} = require("../services/redis")
 const transporter = require('../config/transporter');
 require("../services/redis")
 const sharp = require("sharp");
@@ -10,6 +11,7 @@ const { populate } = require('../models/User');
 
 const register = async (req, res) => {
     try {
+        clearHash("default")
         // Validate the data before we make a user
         // console.log(req.body);
         const error = registerValidation(req.body);
@@ -136,6 +138,7 @@ const getUserList = async (req, res) => {
 
 const uploadAvatar = async (req, res) => {
     try {
+        clearHash("default")
         console.log(req.file);
         const userId = mongoose.Types.ObjectId(req.user._id);
         const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer();
@@ -158,6 +161,7 @@ const uploadAvatar = async (req, res) => {
 
 const addProjectToFavorite = async (req, res) => {
     try {
+        clearHash("default")
         const userId = mongoose.Types.ObjectId(req.user._id);
         const projectId = mongoose.Types.ObjectId(req.body.projectId);
         // console.log('addProjectToFav');
@@ -179,6 +183,7 @@ const addProjectToFavorite = async (req, res) => {
 
 const removeProjectFromFavorite = async (req, res) => {
     try {
+        clearHash("default")
         const userId = mongoose.Types.ObjectId(req.user._id);
         const projectId = mongoose.Types.ObjectId(req.body.projectId);
         // console.log(userId, projectId);
@@ -201,6 +206,7 @@ const removeProjectFromFavorite = async (req, res) => {
 
 const updateUser = async (req, res) => {
     try {
+        clearHash("default")
         const userId = mongoose.Types.ObjectId(req.user._id);
         const user = await User.findByIdAndUpdate(userId, req.body, { new: true });
         res.status(200).json({
