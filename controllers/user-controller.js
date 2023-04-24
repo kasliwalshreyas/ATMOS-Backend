@@ -46,6 +46,7 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
     try {
+        clearHash("default")
         // Validate the data before we make a user
         // console.log(req.body);
         const error = loginValidation(req.body);
