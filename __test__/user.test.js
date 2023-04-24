@@ -56,7 +56,7 @@ describe('User Routes', () => {
                 email: userInput.email,
                 password: userInput.password
             });
-            // console.log(response.body);
+            console.log(response.body);
             expect(response.status).toBe(200);
             expect(response.body.success).toBe(true);
             expect(response.body.message).toBe('Login Success');
