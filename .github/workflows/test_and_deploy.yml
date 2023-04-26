@@ -32,7 +32,7 @@ jobs:
         uses: SpicyPizza/create-envfile@v1
         with:
           envkey_MONGO_URI_TEST: ${{secrets.MONGO_URI_TEST}}
-          envkey_TOKEN_SECERT: ${{secrets.TOKEN_SECERT}}
+          envkey_TOKEN_SECRET: ${{secrets.TOKEN_SECRET}}
   
       - name: NPM install, build and test
         run: |
