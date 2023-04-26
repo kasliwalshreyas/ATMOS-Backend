@@ -33,7 +33,7 @@ const connectDB = async () => {
 }
 
 const connectTestDB = async () => {
-    try {
+    try { 
     
             // mongod = await MongoMemoryServer.create();
         URI = process.env.MONGO_URI_TEST;
