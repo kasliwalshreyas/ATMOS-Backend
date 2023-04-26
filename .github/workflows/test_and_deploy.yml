@@ -31,7 +31,8 @@ jobs:
       - name: Create .env file
         uses: SpicyPizza/create-envfile@v1
         with:
-          envkey_MONGO_URI: ${{secrets.MONGO_URI_TEST}}
+          envkey_MONGO_URI_TEST: ${{secrets.MONGO_URI_TEST}}
+          envkey_TOKEN_SECERT: ${{secrets.TOKEN_SECERT}}
   
       - name: NPM install, build and test
         run: |
