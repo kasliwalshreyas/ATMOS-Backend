@@ -35,15 +35,11 @@ const connectDB = async () => {
 const connectTestDB = async () => {
     try {
     
-            mongod = await MongoMemoryServer.create();
-            // URI = process.env.MONGO_URI_TEST;
-            URI = await mongod.getUri();
-            console.log(URI);
+            // mongod = await MongoMemoryServer.create();
+        URI = process.env.MONGO_URI_TEST;
+            // URI = await mongod.getUri();
+            // console.log(URI);
         await mongoose.connect(URI);
-        // comment this line if you want to see the console log
-        // if (envNode === 'development') {
-        //     console.log("ATMOS Database connected...");
-        // }
     }   
     catch (err) {
         console.error(err.message);
@@ -54,7 +50,7 @@ const connectTestDB = async () => {
 const disconnectDB = async () => {
    try {
         // drop database
-    //    await mongoose.connection.db.dropDatabase();
+       await mongoose.connection.db.dropDatabase();
        await mongoose.connection.close();
         if (mongod){
             await mongod.stop();

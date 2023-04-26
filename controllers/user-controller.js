@@ -48,9 +48,9 @@ const login = async (req, res) => {
     try {
         clearHash("default")
         // Validate the data before we make a user
-        console.log(req.body);
+        // console.log(req.body);
         const error = loginValidation(req.body);
-        console.log(error);
+        // console.log(error);
         if (error) return res.status(500).json({ success: false, message: error });
 
         // Check if the email exists
