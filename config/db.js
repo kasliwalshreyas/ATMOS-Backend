@@ -38,7 +38,7 @@ const connectTestDB = async () => {
             // mongod = await MongoMemoryServer.create();
         URI = process.env.MONGO_URI_TEST;
             // URI = await mongod.getUri();
-            // console.log(URI);
+            console.log(URI);
         await mongoose.connect(URI);
     }   
     catch (err) {
