@@ -108,7 +108,6 @@ const projectSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
-    //this is created by Einstein
     projectLastUsed: [
         {
             userid: {
@@ -120,13 +119,6 @@ const projectSchema = new mongoose.Schema({
                 default: Date()
             },
         },
-    ],
-    projectMessages: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            required: false,
-            ref: 'Chats'
-        }
     ]
 });
 

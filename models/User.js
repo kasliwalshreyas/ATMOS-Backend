@@ -30,20 +30,6 @@ const userSchema = new mongoose.Schema({
             ref: 'Project'
         }
     ],
-    projectChatList: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            required: false,
-            ref: 'Chats'
-        }
-    ],
-    personalChatList: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            required: false,
-            ref: 'Chats'
-        }
-    ],
     noteIdList: [
         {
             type: mongoose.Schema.Types.ObjectId,
