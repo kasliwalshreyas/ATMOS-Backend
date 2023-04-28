@@ -10,7 +10,7 @@ const swaggerUI = require('swagger-ui-express');
 var path = require('path')
 var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
 const { apiDoc } = require('./utils/docs');
-
+//  this is app
 
 const corsOptions = {
     origin: '*',

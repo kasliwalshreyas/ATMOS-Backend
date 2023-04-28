@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { registerValidation, loginValidation } = require('../config/validation');
 const { default: mongoose } = require('mongoose');
-const {clearHash} = require("../services/redis")
+const { clearHash } = require("../services/redis")
 const transporter = require('../config/transporter');
 require("../services/redis")
 const sharp = require("sharp");
