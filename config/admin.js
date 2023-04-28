@@ -1,7 +1,8 @@
 const supertest = require('supertest');
-const { app, server } = require('../app');
+const app = require('../app');
 const request = supertest(app);
-const { connectDB, disconnectDB } = require('../config/db');
+const { connectDB, disconnectDB } = require('./db');
+// const { before } = require('node:test');
 
 jest.setTimeout(70000);
 
@@ -12,7 +13,7 @@ describe('Admin Routes', () => {
 
     afterAll(async () => {
         await disconnectDB();
-        server.close();
+        // server.close();
     });
 
     describe('GET /admin/users', () => {
@@ -27,7 +28,7 @@ describe('Admin Routes', () => {
 
     describe('GET /admin/users/:id', () => {
         it('should return a user', async () => {
-            const response = await request.get('/admin/users/641c7986a558e83a3c0ec945');
+            const response = await request.get('/admin/users/6446cb2e43130fc5c76be487');
             expect(response.status).toBe(200);
             expect(response.body.success).toBe(true);
             expect(response.body.message).toBe('User found');
@@ -37,7 +38,7 @@ describe('Admin Routes', () => {
 
     describe('DELETE /admin/users/:id', () => {
         it('should delete a user', async () => {
-            const response = await request.delete('/admin/users/641c7986a558e83a3c0ec945');
+            const response = await request.delete('/admin/users/6446de4e39aa6607f5086e16');
             expect(response.status).toBe(200);
             expect(response.body.success).toBe(true);
             expect(response.body.message).toBe('User deleted successfully');
@@ -58,7 +59,7 @@ describe('Admin Routes', () => {
 
     describe('GET /admin/projects/:id', () => {
         it('should return a project', async () => {
-            const response = await request.get('/admin/projects/641f5c3d881d6b4ad63529c5');
+            const response = await request.get('/admin/projects/6446de5739aa6607f5086e20');
             expect(response.status).toBe(200);
             expect(response.body.success).toBe(true);
             expect(response.body.message).toBe('Project found');
@@ -68,7 +69,7 @@ describe('Admin Routes', () => {
 
     describe('DELETE /admin/projects/:id', () => {
         it('should delete a project', async () => {
-            const response = await request.delete('/admin/projects/641f5c3d881d6b4ad63529c5');
+            const response = await request.delete('/admin/projects/6446de5739aa6607f5086e20');
             expect(response.status).toBe(200);
             expect(response.body.success).toBe(true);
             expect(response.body.message).toBe('Project deleted successfully');
@@ -89,7 +90,7 @@ describe('Admin Routes', () => {
 
     describe('GET /admin/sections/:id', () => {
         it('should return a section', async () => {
-            const response = await request.get('/admin/sections/641f0061c12a0c12a934c3f2');
+            const response = await request.get('/admin/sections/6446cb3458df18e7303cfce7');
             expect(response.status).toBe(200);
             expect(response.body.success).toBe(true);
             expect(response.body.message).toBe('Section found');
@@ -99,7 +100,7 @@ describe('Admin Routes', () => {
 
     describe('DELETE /admin/sections/:id', () => {
         it('should delete a section', async () => {
-            const response = await request.delete('/admin/sections/641f0061c12a0c12a934c3f2');
+            const response = await request.delete('/admin/sections/6446cb3458df18e7303cfce7');
             expect(response.status).toBe(200);
             expect(response.body.success).toBe(true);
             expect(response.body.message).toBe('Section deleted successfully');
@@ -120,7 +121,7 @@ describe('Admin Routes', () => {
 
     describe('GET /admin/tasks/:id', () => {
         it('should return a task', async () => {
-            const response = await request.get('/admin/tasks/641f0084c12a0c12a934c41c');
+            const response = await request.get('/admin/tasks/6446de8339aa6607f5086e8a');
             expect(response.status).toBe(200);
             expect(response.body.success).toBe(true);
             expect(response.body.message).toBe('Task found');
@@ -130,7 +131,7 @@ describe('Admin Routes', () => {
 
     describe('DELETE /admin/tasks/:id', () => {
         it('should delete a task', async () => {
-            const response = await request.delete('/admin/tasks/641f0084c12a0c12a934c41c');
+            const response = await request.delete('/admin/tasks/6446de8339aa6607f5086e8a');
             expect(response.status).toBe(200);
             expect(response.body.success).toBe(true);
             expect(response.body.message).toBe('Task deleted successfully');

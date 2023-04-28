@@ -13,6 +13,7 @@ const {
   updateLastUsed,
   changeUserAccessLevel, 
   removeTeamMember,
+  getProjectsDetails
 } = require("../controllers/project-controller");
 
 router.use(auth);
@@ -23,6 +24,7 @@ router.delete("/deleteProject/:id", deleteProject);
 router.get("/getUserProjects", getUserProjects);
 router.put("/updateLastUsed/:id", updateLastUsed); //created by Einstein
 router.get("/getProjectDetails/:id", getProjectDetails);
+router.get("/getProjectsDetails", getProjectsDetails);
 router.put("/addTeamMember/:id", addTeamMember);
 router.post("/transferOwnership/:id", transferOwnership);
 router.post("/:id/changeUserAccessLevel", changeUserAccessLevel);

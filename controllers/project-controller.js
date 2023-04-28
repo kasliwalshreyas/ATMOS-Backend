@@ -4,11 +4,12 @@ const Section = require("../models/Section");
 const Task = require("../models/Task");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
-
+require("../services/redis")
+const {clearHash} = require("../services/redis")
 const create = async (req, res) => {
   try {
     // console.log(req.body, "req.body from project controller -> create");
-
+    clearHash("default")
     //add project to user's project list
     const userId = mongoose.Types.ObjectId(req.body.projectOwner);
     const project = new Project({
@@ -74,6 +75,7 @@ const update = async (req, res) => { };
 
 const deleteProject = async (req, res) => {
   try {
+    clearHash("default")
     const projectId = mongoose.Types.ObjectId(req.params.id);
     const project = await Project.findByIdAndDelete(projectId);
 
@@ -123,7 +125,7 @@ const deleteProject = async (req, res) => {
       }
     }
 
-    console.log(project, "project from project controller -> deleteProject");
+    // console.log(project, "project from project controller -> deleteProject");
 
     res.status(200).json({
       success: true,
@@ -141,7 +143,7 @@ const deleteProject = async (req, res) => {
 //Created by Einstein
 const updateLastUsed = async (req, res) => {
   try {
-
+    clearHash("default")
     const userId = mongoose.Types.ObjectId(req.user._id);
     const projectId = mongoose.Types.ObjectId(req.params.id);
     const project = await Project.findById(projectId);
@@ -197,8 +199,7 @@ const getUserProjects = async (req, res) => {
     //populate projects from Projects collection
     const projects = await Project.find({ _id: { $in: projectList } }).select(
       "-projectSectionIdList -projectTaskIdList -projectHighAccessMembers -projectMediumAccessMembers -projectLowAccessMembers -projectMission -projectVision -projectDescription -projectStatement -projectGuidelines -projectStartDate -projectEndDate"
-    );
-
+    )
     // .populate("projectOwner")
     // .populate("projectHighAccessMembers")
     // .populate("projectMediumAccessMembers")
@@ -210,7 +211,7 @@ const getUserProjects = async (req, res) => {
     // .populate({
     //   path: "projectTaskIdList",
     //   // populate: { path: "taskAssigneeList" },
-    // });
+    // }).cache();
     // console.log(projects, "projects from project controller -> getUserProjects");
 
     res.status(200).json({
@@ -230,7 +231,7 @@ const getUserProjects = async (req, res) => {
 const getProjectDetails = async (req, res) => {
   try {
     const projectId = mongoose.Types.ObjectId(req.params.id);
-    console.log(projectId);
+    // console.log(projectId);
     const project = await Project.findById(projectId)
       .populate("projectOwner")
       .populate("projectHighAccessMembers")
@@ -311,8 +312,45 @@ const getProjectDetails = async (req, res) => {
   }
 };
 
+const getProjectsDetails = async (req, res) => {
+  try {
+    const projectIds = mongoose.Types.ObjectId(req.body.allProjects);
+    console.log(projectIds);
+    let projects = []
+    projectIds.map(async(projectId)=>{
+      const project = await Project.findById(projectId)
+        .populate("projectOwner")
+        .populate("projectHighAccessMembers")
+        .populate("projectMediumAccessMembers")
+        .populate("projectLowAccessMembers")
+        .populate({
+          path: "projectSectionIdList",
+          populate: { path: "taskIdList", populate: { path: "taskAssigneeList" } },
+        })
+        .populate("projectTaskIdList");
+        projects.push(project)
+    })
+    res.status(200).json({
+      success: true,
+      message: "Project details fetched successfully",
+      projects: projects,
+    });
+  } catch (err) {
+    console.log(err, "Error from project controller -> getProjectsDetails");
+    res.status(500).json({
+      success: false,
+      message: err,
+    });
+  }
+};
+
+
+
+
+
 const addTeamMember = async (req, res) => {
   try {
+    clearHash("default")
     const projectId = mongoose.Types.ObjectId(req.params.id);
     const userId = mongoose.Types.ObjectId(req.body.userId);
     const accessLevel = req.body.accessLevel;
@@ -376,12 +414,13 @@ const addTeamMember = async (req, res) => {
 
 const transferOwnership = async (req, res) => {
   try {
+    clearHash("default")
     const projectId = mongoose.Types.ObjectId(req.params.id);
     const userId = mongoose.Types.ObjectId(req.user._id);
     const newOwnerId = mongoose.Types.ObjectId(req.body.newOwner);
 
     //transfer ownership
-    console.log("transfer ownership", projectId, userId, newOwnerId);
+    // console.log("transfer ownership", projectId, userId, newOwnerId);
 
     const project = await Project.findByIdAndUpdate(
       projectId,
@@ -410,6 +449,7 @@ const transferOwnership = async (req, res) => {
 
 const changeUserAccessLevel = async (req, res) => {
   try {
+    clearHash("default")
     const projectId = mongoose.Types.ObjectId(req.params.id);
     const userId = mongoose.Types.ObjectId(req.body.userId);
     const newAccessLevel = req.body.newAccessLevel;
@@ -502,6 +542,7 @@ const changeUserAccessLevel = async (req, res) => {
 
     }
     else {
+      console.log("You don't have high access to this project");
       res.status(500).json({
         success: false,
         message: "You don't have high access to this project",
@@ -521,6 +562,7 @@ const changeUserAccessLevel = async (req, res) => {
 
 const removeTeamMember = async (req, res) => {
   try {
+    clearHash("default")
     const projectId = mongoose.Types.ObjectId(req.params.id);
     const userId = mongoose.Types.ObjectId(req.body.userId);
     const currUser = mongoose.Types.ObjectId(req.user._id);
@@ -618,5 +660,6 @@ module.exports = {
   transferOwnership,
   updateLastUsed,
   changeUserAccessLevel,
-  removeTeamMember
+  removeTeamMember,
+  getProjectsDetails
 };
